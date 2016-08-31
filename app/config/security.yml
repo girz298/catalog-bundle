@@ -10,11 +10,6 @@ security:
     encoders:
         CatalogBundle\Entity\User: plaintext
 
-    role_hierarchy:
-        ROLE_USER: IS_AUTHENTICATED_ANONYMOUSLY
-        ROLE_MODERATOR: ROLE_USER
-        ROLE_ADMIN: [ROLE_USER,ROLE_MODERATOR]
-
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
