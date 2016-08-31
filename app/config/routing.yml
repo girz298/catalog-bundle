@@ -1,0 +1,4 @@
+catalog:
+    resource: "@CatalogBundle/Controller/"
+    type:     annotation
+    prefix:   /
