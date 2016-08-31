@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminController
+class AdminController extends Controller
 {
     /**
      * @param Request $request
@@ -22,6 +22,8 @@ class AdminController
      * @Route("/admin", name="admin_page")
      */
     public function loginAction(Request $request){
-        return new Response("Admin Page");
+        return $this->render("@Catalog/admin/admin.html.twig",[
+            'username' => $this->get('security.token_storage')->getToken()->getUsername(),
+        ]);
     }
 }
