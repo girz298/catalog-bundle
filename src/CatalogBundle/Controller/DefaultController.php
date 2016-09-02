@@ -2,16 +2,30 @@
 
 namespace CatalogBundle\Controller;
 
+use CatalogBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/new_user")
      */
     public function indexAction()
     {
-        return $this->render('CatalogBundle:Default:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+
+        $user = new User();
+        $user->setEmail('test@mail.com');
+        $user->setIsActive(true);
+        $user->setPassword('tast');
+        $user->setUsername('test');
+
+        $em->persist($user);
+        $em->flush();
+
+        return new Response("user creted");
     }
 }
