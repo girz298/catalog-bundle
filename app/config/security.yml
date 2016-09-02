@@ -4,11 +4,14 @@ security:
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        webservice:
-            id: user_provider
+        our_db_provider:
+            entity:
+                class: CatalogBundle:User
+                property: username
 
     encoders:
-        CatalogBundle\Entity\User: plaintext
+        CatalogBundle\Entity\User:
+            algorithm: plaintext
 
     role_hierarchy:
         ROLE_USER: IS_AUTHENTICATED_ANONYMOUSLY
@@ -27,6 +30,9 @@ security:
 
             #http_basic: ~
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+            pattern: ^/
+
+            provider: our_db_provider
 
             form_login:
                 login_path: login
