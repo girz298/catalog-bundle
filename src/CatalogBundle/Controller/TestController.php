@@ -88,7 +88,7 @@ class TestController extends Controller
             'childOpen' => '<li>',
             'childClose' => '</li>',
             'nodeDecorator' => function($node) {
-                return '<a href="/category/'.$node['id'].'">'.$node['title'].'</a>';
+                return '<a href="/category/' . $node['id'] . '">' . $node['title'] . '</a>';
             }
         ];
         $htmlTree = $repo->childrenHierarchy(

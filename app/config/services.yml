@@ -11,3 +11,6 @@ services:
         class: Gedmo\Tree\TreeListener
         tags:
             - { name: doctrine.event_subscriber, connection: default }
+
+    app.product_api_service:
+        class: CatalogBundle\Service\ProductAPIService

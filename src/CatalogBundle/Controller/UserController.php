@@ -24,7 +24,8 @@ class UserController
      * @Security("has_role('ROLE_USER')")
      * @Method({"GET"})
      */
-    public function getProductsByPageAction($page){
+    public function getProductsByPageAction($page)
+    {
         $onPage = (int)$page*20;
         $resp = 'products from ' . $onPage . ' to ' . ($onPage+20);
         return new Response($resp);
@@ -38,7 +39,8 @@ class UserController
      * @Security("has_role('ROLE_USER')")
      * @Method({"GET"})
      */
-    public function getProductsByScuAction($scu){
+    public function getProductsByScuAction($scu)
+    {
         return new Response('all information about product by scu: ' . $scu);
     }
 
@@ -52,7 +54,8 @@ class UserController
      * @Security("has_role('ROLE_USER')")
      * @Method({"GET"})
      */
-    public function getProductsByCategoryAction($id){
+    public function getProductsByCategoryAction($id)
+    {
         return new Response('All products be category with id: ' . $id);
     }
 }

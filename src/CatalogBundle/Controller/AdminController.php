@@ -8,8 +8,6 @@
 
 namespace CatalogBundle\Controller;
 
-
-use CatalogBundle\Entity\User;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -24,7 +22,8 @@ class AdminController extends Controller
      * @Route("/admin", name="admin_page")
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function adminAction(Request $request){
+    public function adminAction(Request $request)
+    {
         return $this->render("admin/admin.html.twig",[
             'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ]);

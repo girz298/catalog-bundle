@@ -21,7 +21,8 @@ class GuestController  extends Controller
      * @Method({"GET"})
      * @return Response
      */
-    public function indexAction(){
+    public function indexAction()
+    {
         return $this->render('anon/index.html.twig');
     }
 
