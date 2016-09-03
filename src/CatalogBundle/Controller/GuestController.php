@@ -19,14 +19,17 @@ class GuestController  extends Controller
     /**
      * @Route("/", name="index")
      * @Method({"GET"})
+     * @return Response
      */
     public function indexAction(){
         return $this->render('anon/index.html.twig');
     }
 
     /**
+     * @param Post
      * @Route("/login", name="login")
-     * @Method({"GET"})
+     * @Method({"POST","GET"})
+     * @return Response
      */
     public function loginAction()
     {
@@ -43,8 +46,10 @@ class GuestController  extends Controller
     }
 
     /**
+     * @param Post
      * @Route("/register", name="register")
-     * @Method({"GET"})
+     * @Method({"GET","POST"})
+     * @return Response
      */
     public function registerAction()
     {

@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends Controller
+class TestController extends Controller
 {
     /**
      * @Route("/new_user")
@@ -16,14 +16,14 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = new User();
-        $user->setEmail('test@mail.com');
+        $user->setEmail('admin@mail.com');
         $user->setIsActive(true);
-        $user->setPassword('tast');
-        $user->setUsername('test');
-        $user->setRole('ROLE_USER');
+        $user->setPassword('admin');
+        $user->setUsername('admin');
+        $user->setRole('ROLE_ADMIN');
         $em->persist($user);
         $em->flush();
 
-        return new Response("user creted");
+        return new Response('User: ' . $user->getUsername()  . ' was creted!');
     }
 }
