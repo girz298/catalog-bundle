@@ -15,14 +15,11 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-
         $user = new User();
         $user->setEmail('test@mail.com');
         $user->setIsActive(true);
         $user->setPassword('tast');
         $user->setUsername('test');
-
         $em->persist($user);
         $em->flush();
 

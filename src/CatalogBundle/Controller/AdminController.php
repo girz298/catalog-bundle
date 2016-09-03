@@ -23,10 +23,6 @@ class AdminController extends Controller
      * @Route("/admin", name="admin_page")
      */
     public function loginAction(Request $request){
-
-
-
-
         return $this->render("@Catalog/admin/admin.html.twig",[
             'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ]);
