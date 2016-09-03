@@ -5,7 +5,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Table(name="users")
+ * User
+ *
+ * @ORM\Table(name="users",indexes={
+ *     @ORM\Index(name="username", columns={"username"}),
+ *     @ORM\Index(name="email", columns={"email"}),
+ *     @ORM\Index(name="role", columns={"role"}),
+ *     @ORM\Index(name="password", columns={"password"}),
+ *     @ORM\Index(name="is_active", columns={"is_active"})})
  * @ORM\Entity(repositoryClass="CatalogBundle\Entity\UserRepository")
  */
 class User implements UserInterface, \Serializable

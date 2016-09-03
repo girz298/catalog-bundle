@@ -41,4 +41,18 @@ class UserController
     public function getProductsByScuAction($scu){
         return new Response('all information about product by scu: ' . $scu);
     }
+
+    /**
+     * @Route(
+     *     "/category/{id}",
+     *     requirements={"id" = "[0-9]{1,3}"},
+     *     defaults={"page" = 1},
+     *     name="products_by_category"
+     * )
+     * @Security("has_role('ROLE_USER')")
+     * @Method({"GET"})
+     */
+    public function getProductsByCategoryAction($id){
+        return new Response('All products be category with id: ' . $id);
+    }
 }
