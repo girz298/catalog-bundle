@@ -91,6 +91,11 @@ class Category
         return $this->title;
     }
 
+    public function getName()
+    {
+        return $this->title;
+    }
+
     public function getRoot()
     {
         return $this->root;
