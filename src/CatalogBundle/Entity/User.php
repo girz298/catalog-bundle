@@ -5,7 +5,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Table(name="app_users")
+ * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="CatalogBundle\Entity\UserRepository")
  */
 class User implements UserInterface, \Serializable
@@ -28,10 +28,15 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $role;
+
+    /**
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;
-
+    
     /**
      * @ORM\Column(name="is_active", type="boolean")
      */
@@ -63,7 +68,7 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return [$this->role];
     }
 
     public function eraseCredentials()
@@ -178,5 +183,29 @@ class User implements UserInterface, \Serializable
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     *
+     * @return User
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 }
