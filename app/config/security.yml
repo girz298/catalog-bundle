@@ -46,14 +46,14 @@ security:
             form_login: ~
 
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-    access_control:
-        - { path: /login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /forgot-password, roles: ROLE_USER }
-        - { path: ^/product, roles: ROLE_USER }
-        - { path: ^/edit-product, roles: ROLE_MODERATOR }
-        - { path: ^/edit-category, roles: ROLE_MODERATOR }
-        - { path: ^/edit-user, roles: ROLE_ADMIN }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/, roles: ROLE_ADMIN }
+#    access_control:
+#        - { path: /login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: /register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: /, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: /forgot-password, roles: ROLE_USER }
+#        - { path: ^/product, roles: ROLE_USER }
+#        - { path: ^/edit-product, roles: ROLE_MODERATOR }
+#        - { path: ^/edit-category, roles: ROLE_MODERATOR }
+#        - { path: ^/edit-user, roles: ROLE_ADMIN }
+#        - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/, roles: ROLE_ADMIN }

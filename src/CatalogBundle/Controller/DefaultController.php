@@ -20,6 +20,7 @@ class DefaultController extends Controller
         $user->setIsActive(true);
         $user->setPassword('tast');
         $user->setUsername('test');
+        $user->setRole('ROLE_USER');
         $em->persist($user);
         $em->flush();
 

@@ -2,20 +2,31 @@
 /**
  * Created by PhpStorm.
  * User: doctor
- * Date: 31.08.16
- * Time: 23:50
+ * Date: 03.09.16
+ * Time: 15:02
  */
 
 namespace CatalogBundle\Controller;
 
-use CatalogBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-class SecurityController extends Controller
+class GuestController  extends Controller
 {
     /**
+     * @Route("/", name="index")
+     * @Method({"GET"})
+     */
+    public function indexAction(){
+        return $this->render('anon/index.html.twig');
+    }
+
+    /**
      * @Route("/login", name="login")
+     * @Method({"GET"})
      */
     public function loginAction()
     {
@@ -23,11 +34,20 @@ class SecurityController extends Controller
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render(
-            '@Catalog/security/login.html.twig',
+            'security/login.html.twig',
             [
                 'last_username' => $lastUsername,
                 'error'         => $error,
             ]
         );
+    }
+
+    /**
+     * @Route("/register", name="register")
+     * @Method({"GET"})
+     */
+    public function registerAction()
+    {
+        return new Response("REGISTER PAGE");
     }
 }

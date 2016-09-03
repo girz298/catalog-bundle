@@ -11,7 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-class ProductController
+
+class UserController
 {
     /**
      * @Route(
@@ -20,7 +21,7 @@ class ProductController
      *     defaults={"page" = 1},
      *     name="products_by_page"
      * )
-     * @Security
+     * @Security("has_role('ROLE_USER')")
      * @Method({"GET"})
      */
     public function getProductsByPageAction($page){
@@ -28,11 +29,13 @@ class ProductController
         $resp = 'products from ' . $onPage . ' to ' . ($onPage+20);
         return new Response($resp);
     }
+
     /**
      * @Route(
      *     "/product/{scu}",
      *     name="products_by_scu"
      * )
+     * @Security("has_role('ROLE_USER')")
      * @Method({"GET"})
      */
     public function getProductsByScuAction($scu){

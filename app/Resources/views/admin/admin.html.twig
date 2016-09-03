@@ -1,10 +1,6 @@
-{% extends "@Catalog/base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block body %}
-
-{% if error %}
-    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-{% endif %}
 
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -37,20 +33,9 @@
                         </ul>
                     </li>
                 </ul>
-                <form action="{{ path('login') }}" id="signin" class="navbar-form navbar-right" role="form" method="post">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                        <input id="username" type="text" class="form-control" name="_username" value="{{ last_username }}" placeholder="Username">
+                    <div class="navbar-form navbar-right input-group">
+                        Hello, {{ username }}
                     </div>
-
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                        <input id="password" type="password" class="form-control" name="_password" value="" placeholder="Password">
-                    </div>
-                    <input type="hidden" name="_target_path" value="/admin" />
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
-
             </div>
         </div>
     </nav>
