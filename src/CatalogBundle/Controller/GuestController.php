@@ -8,9 +8,19 @@
 
 namespace CatalogBundle\Controller;
 
+use CatalogBundle\Entity\User;
+use CatalogBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -52,8 +62,24 @@ class GuestController  extends Controller
      * @Method({"GET","POST"})
      * @return Response
      */
-    public function registerAction()
+    public function registerAction(Request $request)
     {
-        return new Response("REGISTER PAGE");
+        $user = new User();
+        $form = $this->createForm(UserType::class,$user);
+        $em = $this->getDoctrine()->getManager();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $user = $form->getData();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('login');
+
+        }
+
+        return $this->render('anon/register.html.twig',[
+            'form' => $form->createView(),
+        ]);
     }
 }

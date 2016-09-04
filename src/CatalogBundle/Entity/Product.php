@@ -101,7 +101,6 @@ class Product
      */
     private $image;
 
-
 //    public function __construct() {
 //        $this->similar_from = new ArrayCollection();
 //    }

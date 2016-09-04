@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Serializer;
 class ProductAPIController extends Controller
 {
     /**
+     * @Security("has_role('ROLE_MODERATOR')")
      * @Route(
      *     "/api/products/{page}/{per_page}/{ordered_by}/{direction}",
      *     requirements={
