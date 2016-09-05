@@ -18,7 +18,7 @@ class ProductAPIController extends Controller
      * @Route(
      *     "/api/products/{page}/{per_page}/{ordered_by}/{direction}",
      *     requirements={
-     *          "page" = "[0-9]{1,3}",
+     *          "page" = "[0-9]{1,5}",
      *          "per_page" = "[0-9]{1,3}"
      *     },
      *     defaults={
@@ -38,9 +38,16 @@ class ProductAPIController extends Controller
 
         $encoder = new JsonEncoder();
         $normalizer = new ObjectNormalizer();
+
         $normalizer->setCircularReferenceHandler(function ($object) {
             return $object->getName();
         });
+
+        $normalizer->setCircularReferenceLimit(2);
+        $normalizer->setIgnoredAttributes([
+            'creationTime',
+            'lastModification',
+        ]);
 
         $serializer = new Serializer([$normalizer], [$encoder]);
 

@@ -4,13 +4,14 @@ namespace CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use JsonSerializable;
 /**
  * @ORM\Table(name="products",indexes={
  *     @ORM\Index(name="name", columns={"name"}),
  *     @ORM\Index(name="creation_time", columns={"creation_time"})})
  * @ORM\Entity(repositoryClass="CatalogBundle\Entity\ProductRepository")
  */
+//implements JsonSerializable
 class Product
 {
 
@@ -104,6 +105,21 @@ class Product
 //    public function __construct() {
 //        $this->similar_from = new ArrayCollection();
 //    }
+
+//    function jsonSerialize()
+//    {
+//        return [
+//            'id' => $this->id,
+//            'name' => $this->name,
+//            'category' => $this->category->getName(),
+//            'description' => $this->description,
+//            'sku' => $this->sku,
+//            'image' => $this->image,
+//            'creation_time' => $this->creationTime->getTimestamp(),
+//            'last_modification_time' =>$this->lastModification->getTimestamp(),
+//        ];
+//    }
+
 
     /**
      * Constructor
@@ -312,7 +328,7 @@ class Product
      */
     public function getCategory()
     {
-        return $this->category;
+        return $this->category->getName();
     }
 
     /**

@@ -43,6 +43,7 @@ class ProductAPIService
             ->getResult();
 
         $response = new Response($serializer->serialize($products,'json'));
+//        $response = new Response(json_encode($products));
         $response->headers->set('Content-Type', 'application/vnd.api+json');
 
         return $response;
