@@ -16,4 +16,4 @@
 /web/bundles/
 .idea/
 composer.phar
-
+/src/CatalogBundle/Entity/*.php~
