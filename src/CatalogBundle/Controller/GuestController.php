@@ -9,6 +9,7 @@
 namespace CatalogBundle\Controller;
 
 use CatalogBundle\Entity\User;
+use CatalogBundle\Form\BasicUserType;
 use CatalogBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;

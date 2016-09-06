@@ -4,6 +4,8 @@ namespace CatalogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * User
  *
@@ -25,21 +27,33 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
      * @ORM\Column(type="string", length=25, unique=true)
      */
     private $username;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=5)
      * @ORM\Column(type="string", length=64)
      */
     private $password;
 
     /**
+     * @Assert\Choice(
+     *     choices = { "ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN" },
+     *     message = "Choose a valid role."
+     * )
      * @ORM\Column(type="string", length=64)
      */
     private $role;
 
     /**
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;
