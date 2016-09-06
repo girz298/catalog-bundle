@@ -38,6 +38,10 @@ security:
                 login_path: login
                 check_path: login
 
+            logout:
+                path: /logout
+                target: /
+
         login_firewall:
             pattern:   ^/login$
             anonymous: ~

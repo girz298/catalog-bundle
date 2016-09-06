@@ -23,7 +23,7 @@ class UserType extends AbstractType
                 'class' => 'form-control',
                 'style' => 'margin-bottom:15px'
             ]
-        ])
+            ])
             ->add('password', PasswordType::class, [
                 'attr' => [
                     'class' => 'form-control',
