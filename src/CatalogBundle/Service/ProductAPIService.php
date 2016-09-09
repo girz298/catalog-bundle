@@ -25,22 +25,9 @@ class ProductAPIService
         $direction
         )
     {
-        $directionDQL = 'ASC';
-        if ($direction){
-            $directionDQL = 'ASC';
-        } else {
-            $directionDQL = 'DESC';
-        }
-
         $products = $em
-            ->createQueryBuilder()
-            ->select('p')
-            ->from('CatalogBundle:Product','p')
-            ->orderBy('p.' . $ordered_by, $directionDQL)
-            ->setFirstResult(($page-1)*$per_page)
-            ->setMaxResults($per_page)
-            ->getQuery()
-            ->getResult();
+            ->getRepository('CatalogBundle:Product')
+            ->getByPage($page, $per_page, $ordered_by, $direction);
 
         $response = new Response($serializer->serialize($products,'json'));
 //        $response = new Response(json_encode($products));

@@ -17,52 +17,19 @@ class TestController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-//        $user = new User();
-//        $user->setEmail('admin@mail.com');
-//        $user->setIsActive(true);
-//        $user->setPassword('admin');
-//        $user->setUsername('admin');
-//        $user->setRole('ROLE_ADMIN');
-//        $em->persist($user);
+
+        $repo = $em->getRepository('CatalogBundle:Category');
+
+        $watch = $repo->findOneByTitle('test5');
+
+//        $food = new Category();
+//        $food->setTitle('test455');
+//        $food->setStateFlag(true);
+//        $food->setParent($watch);
+//
+//        $em->persist($watch);
+//        $em->persist($food);
 //        $em->flush();
-
-
-
-        $em = $this->getDoctrine()->getManager();
-
-
-        $food = new Category();
-        $food->setTitle('Food');
-        $food->setStateFlag(true);
-
-        $fruits = new Category();
-        $fruits->setTitle('Fruits');
-        $fruits->setParent($food);
-        $fruits->setStateFlag(true);
-
-        $vegetables = new Category();
-        $vegetables->setTitle('Vegetables');
-        $vegetables->setParent($food);
-        $vegetables->setStateFlag(true);
-
-        $carrots = new Category();
-        $carrots->setTitle('Bags');
-        $carrots->setParent($vegetables);
-        $carrots->setStateFlag(true);
-
-        $watch = new Category();
-        $watch->setTitle('Watch');
-        $watch->setStateFlag(true);
-
-
-
-        $em->persist($food);
-        $em->persist($fruits);
-        $em->persist($vegetables);
-        $em->persist($carrots);
-        $em->persist($watch);
-        $em->flush();
-
 
         $now = new\DateTime('now');
 
