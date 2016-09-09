@@ -1,55 +1,55 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: doctor
+ * Date: 08.09.16
+ * Time: 19:14
+ */
 
 namespace CatalogBundle\Form;
 
-
+use CatalogBundle\Form\Type\CategoryType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 
-class BasicUserType extends AbstractType
+class BasicProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, [
+            ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'style' => 'margin-bottom:15px'
                 ]
             ])
-            ->add('password', PasswordType::class, [
+            ->add('category', CategoryType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'style' => 'margin-bottom:15px'
                 ]
             ])
-            ->add('email', EmailType::class, [
+            ->add('sku', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'style' => 'margin-bottom:15px'
                 ]
             ])
-            ->add('role', ChoiceType::class, [
-                'choices' => [
-                    'ROLE_USER' => 'ROLE_USER',
-                    'ROLE_MODERATOR' => 'ROLE_MODERATOR',
-                    'ROLE_ADMIN' => 'ROLE_ADMIN'
-                ],
+            ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'style' => 'margin-bottom:15px'
                 ]
             ])
-            ->add('is_active', CheckboxType::class, [
+            ->add('state_flag', CheckboxType::class, [
                 'attr' => [
                     'class' => 'checkbox-inline',
-                    'style' => 'margin:10px'
+                    'style' => 'margin: 10px;'
                 ]
             ]);
     }

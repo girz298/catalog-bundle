@@ -317,7 +317,6 @@ class Product
     public function setCategory(\CatalogBundle\Entity\Category $category = null)
     {
         $this->category = $category;
-
         return $this;
     }
 
@@ -328,7 +327,7 @@ class Product
      */
     public function getCategory()
     {
-        return $this->category->getName();
+        return $this->category;
     }
 
     /**
