@@ -47,6 +47,8 @@ class ProductAPIController extends Controller
         $normalizer->setIgnoredAttributes([
             'creationTime',
             'lastModification',
+            'similarProducts',
+            'image'
         ]);
 
         $serializer = new Serializer([$normalizer], [$encoder]);

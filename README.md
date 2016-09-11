@@ -9,4 +9,4 @@
 
 **Не забываем composer install для подхвата зависимостей**
 
-**Чтобы все заработало нужно будет сделать symlink на app/Resources/public в папке web/bundles**
+**Чтобы все заработало нужно будет сделать assets:install --symlink т.к Bootstrap и Jquery хранятся в репозитории а не ставятся через composer!!!**
