@@ -38,6 +38,18 @@ class ModeratorContoller extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_MODERATOR')")
+     * @Route("/product/crud", name="product_crud")
+     * @Method({"GET","POST"})
+     * @return Response
+     */
+    public function gridProducts()
+    {
+        return $this->render('moderator/product_crud.html.twig');
+    }
+
+
+    /**
      * @param $id
      * @Security("has_role('ROLE_MODERATOR')")
      * @Route(
