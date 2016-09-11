@@ -11,3 +11,12 @@ services:
         class: Gedmo\Tree\TreeListener
         tags:
             - { name: doctrine.event_subscriber, connection: default }
+
+    app.product_api_service:
+        class: CatalogBundle\Service\ProductAPIService
+
+    app.form.type.category:
+        class: CatalogBundle\Form\Type\CategoryType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }

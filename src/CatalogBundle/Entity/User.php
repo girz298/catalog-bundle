@@ -4,6 +4,8 @@ namespace CatalogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * User
  *
@@ -15,7 +17,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     @ORM\Index(name="is_active", columns={"is_active"})})
  * @ORM\Entity(repositoryClass="CatalogBundle\Entity\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -25,21 +27,33 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
      * @ORM\Column(type="string", length=25, unique=true)
      */
     private $username;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=5)
      * @ORM\Column(type="string", length=64)
      */
     private $password;
 
     /**
+     * @Assert\Choice(
+     *     choices = { "ROLE_USER", "ROLE_MODERATOR", "ROLE_ADMIN" },
+     *     message = "Choose a valid role."
+     * )
      * @ORM\Column(type="string", length=64)
      */
     private $role;
 
     /**
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;
@@ -80,30 +94,6 @@ class User implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
-    }
-
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt
-            ) = unserialize($serialized);
     }
 
     /**

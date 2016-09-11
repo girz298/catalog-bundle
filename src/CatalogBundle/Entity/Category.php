@@ -23,7 +23,7 @@ class Category
     private $id;
 
     /**
-     * @ORM\Column(length=64)
+     * @ORM\Column(length=64, type="string", unique=true)
      */
     private $title;
 
@@ -87,6 +87,11 @@ class Category
     }
 
     public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function getName()
     {
         return $this->title;
     }

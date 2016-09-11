@@ -16,7 +16,7 @@ security:
     role_hierarchy:
         ROLE_USER: IS_AUTHENTICATED_ANONYMOUSLY
         ROLE_MODERATOR: ROLE_USER
-        ROLE_ADMIN: [ROLE_USER,ROLE_MODERATOR]
+        ROLE_ADMIN: ROLE_MODERATOR
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -37,6 +37,10 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+
+            logout:
+                path: /logout
+                target: /
 
         login_firewall:
             pattern:   ^/login$

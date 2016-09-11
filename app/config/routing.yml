@@ -1,4 +1,8 @@
+logout:
+    path: /logout
+
 catalog:
     resource: "@CatalogBundle/Controller/"
     type:     annotation
     prefix:   /
+
