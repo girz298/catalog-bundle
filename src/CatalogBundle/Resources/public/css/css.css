@@ -35,3 +35,13 @@ table {
 #prev-btn {
     margin-right: 10px;
 }
+
+.edit-btn {
+}
+
+.disabled-header:hover {
+    text-align: center;
+    font-size: 16px;
+    -webkit-user-select: none;
+    border: solid 2px transparent;
+}

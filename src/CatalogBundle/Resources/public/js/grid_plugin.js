@@ -28,21 +28,46 @@
                     thead.append('<th>'+pole+'</th>');
                 }
             }
+            thead.append('<th class="disabled-header">Edit</th>');
             this.table.append('</thead>');
         }
 
-        function setBody(data) {
-            this.table.append('<tbody>');
+        function setBody(data, from) {
+            if (!from) {
+                this.table.append('<tbody>');
+            }
             var tbody = $('table tbody');
             data.forEach(function (item, i) {
-                tbody.append('<tr id="titem'+i+'">');
-                var tr = $('#titem'+i+'');
+                tbody.append('<tr id="titem'+item['id']+'">');
+                var tr = $('#titem'+item['id']+'');
                 for (var pole in item){
-                    tr.append('<td>'+item[pole]+'</td>');
+                    if (pole != 'category') {
+                        tr.append('<td>' + item[pole] + '</td>');
+                    } else {
+                        tr.append('<td>' + item['category']['title'] + '</td>');
+                    }
                 }
+
+                tr.append('<td>' +
+                    '<div class="btn-group" role="group" >' +
+                    '<button id="view' + item['id'] +
+                    '" class="btn btn-info view-btn" >' +
+                    '<span class="glyphicon glyphicon-book" ></span></button>' +
+                    '<button id="edit' + item['id'] +
+                    '" class="btn btn-primary edit-btn">' +
+                    '<span class="glyphicon glyphicon-pencil"></span></button>' +
+                    '<button id="remove' + item['id'] +
+                    '" class="btn btn-danger remove-btn">' +
+                    '<span class="glyphicon glyphicon-remove"></span></button>' +
+                    '</div>' +
+                    '</td>');
+
                 tbody.append('</tr>');
             });
-            this.table.append('</tbody>');
+
+            if (!from) {
+                this.table.append('</tbody>');
+            }
         }
 
         function ajaxRequest(options) {
@@ -59,31 +84,32 @@
                     setBody(data);
                     setSortable();
                     setButtons();
+                    setButtonsWorkable();
                 },
             });
         }
 
         function setSortable() {
-            var that = this;
             $('th').click(function () {
-                if ($(this).hasClass('active-filter')) {
-
-                    $('th').removeClass('active-filter');
-                    $('th').removeClass('active-filter-desc');
-                    $(this).addClass('active-filter-desc');
-                    console.log($(this)[0].outerText);
-                    options.sortableColumn = $(this)[0].outerText + "";
-                    options.direction = 0;
-                    ajaxRequest(options);
-                } else {
-                    $('th').removeClass('active-filter');
-                    $('th').removeClass('active-filter-desc');
-                    $(this).addClass('active-filter');
-                    console.log($(this)[0].outerText);
-                    options.sortableColumn = $(this)[0].outerText + "";
-                    options.direction = 1;
-                    ajaxRequest(options);
+                if (!$(this).hasClass('disabled-header')) {
+                    if ($(this).hasClass('active-filter')) {
+                        $('th').removeClass('active-filter');
+                        $('th').removeClass('active-filter-desc');
+                        $(this).addClass('active-filter-desc');
+                        // console.log($(this)[0].outerText);
+                        options.sortableColumn = $(this)[0].outerText + "";
+                        options.direction = 0;
+                        ajaxRequest(options);
+                    } else {
+                        $('th').removeClass('active-filter');
+                        $('th').removeClass('active-filter-desc');
+                        $(this).addClass('active-filter');
+                        // console.log($(this)[0].outerText);
+                        options.sortableColumn = $(this)[0].outerText + "";
+                        options.direction = 1;
+                        ajaxRequest(options);
                 }
+            }
             });
         }
 
@@ -103,8 +129,46 @@
             });
         }
 
-        ajaxRequest(options);
+        function setButtonsWorkable() {
+            $('.remove-btn').click(function () {
+                var id = $(this).attr('id').slice(6);
+                // console.log($(this).attr('id').slice(6));
+                // $('#titem'+id).hide("fast", function () {
+                    removeAjax(id);
+                // });
+                prettyRemoveHelper();
+            });
+        }
+        
+        function removeAjax(id) {
+            $.ajax({
+                url: 'http://localhost:8000/product/' + id + '/remove',
+                success: function (data) {
+                    if (data == 1) {
+                        $('#titem'+id).remove();
+                    } else {
+                        this.error();
+                    }
+                },
+                error: function () {
+                    alert("Something going wrong!");
+                }
+            });
+        }
 
+        function prettyRemoveHelper() {
+            $.ajax({
+                url: 'http://localhost:8000/api/products/'+((options.page*options.itemsPerPage))+'/'+
+                1+'/'+options.sortableColumn+'/'+
+                options.direction,
+                success: function(data){
+                    setBody(data, 1);
+
+                },
+            });
+        }
+
+        ajaxRequest(options);
     }
 
 })(jQuery);

@@ -28,13 +28,13 @@ class ModeratorContoller extends Controller
     /**
      * @param $scu
      * @Security("has_role('ROLE_MODERATOR')")
-     * @Route("/product/{scu}/edit", name="product_create")
+     * @Route("/product/{scu}/edit", name="product_edit")
      * @Method({"GET","POST"})
      * @return Response
      */
     public function editProduct($scu)
     {
-        return new Response("Page edit product granted to ROLE_MODERATOR");
+        return new Response("Page edit product granted to ROLE_MODERATOR " . $scu);
     }
 
     /**
@@ -54,7 +54,7 @@ class ModeratorContoller extends Controller
      * @Security("has_role('ROLE_MODERATOR')")
      * @Route(
      *     "/category/{id}/edit",
-     *     requirements={"page" = "[0-9]{1,3}"},
+     *     requirements={"id" = "[0-9]{1,3}"},
      *     name="edit_category"
      *     )
      * @Method({"GET","POST"})
@@ -62,7 +62,7 @@ class ModeratorContoller extends Controller
      */
     public function editCategory($id)
     {
-        return new Response("Page edit product granted to ROLE_MODERATOR");
+        return new Response("Page edit category granted to ROLE_MODERATOR");
     }
 
     /**
@@ -83,9 +83,9 @@ class ModeratorContoller extends Controller
         $product->setLastModification($now);
         $form = $this->createForm(SubmitProductType::class, $product);
 
-
-        $sameCategory = $em->getRepository('CatalogBundle:Category')
-            ->findOneByTitle('Bags');
+//
+//        $sameCategory = $em->getRepository('CatalogBundle:Category')
+//            ->findOneByTitle('Bags');
 
         $form->handleRequest($request);
 
@@ -100,5 +100,30 @@ class ModeratorContoller extends Controller
         return $this->render('moderator/add_product.html.twig',[
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @param Post
+     * @Security("has_role('ROLE_MODERATOR')")
+     * @Route(
+     *     "/product/{id}/remove",
+     *     requirements={"id" = "[0-9]{1,3}"},
+     *     name="product_remove"
+     * )
+     * @Method({"GET","POST"})
+     * @return Response
+     */
+    public function removeProduct($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $prodRepo = $em->getRepository('CatalogBundle:Product');
+        $product = $prodRepo->findOneById($id);
+        if ($product === null){
+            return new Response('0');
+        } else {
+            $em->remove($product);
+            $em->flush();
+            return new Response('1');
+        }
     }
 }

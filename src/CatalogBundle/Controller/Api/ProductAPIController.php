@@ -11,6 +11,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+
 class ProductAPIController extends Controller
 {
     /**
@@ -43,12 +44,15 @@ class ProductAPIController extends Controller
             return $object->getName();
         });
 
-        $normalizer->setCircularReferenceLimit(2);
+        $normalizer->setCircularReferenceLimit(0);
         $normalizer->setIgnoredAttributes([
             'creationTime',
             'lastModification',
             'similarProducts',
-            'image'
+            'image',
+            'parent',
+            'children',
+            'products'
         ]);
 
         $serializer = new Serializer([$normalizer], [$encoder]);

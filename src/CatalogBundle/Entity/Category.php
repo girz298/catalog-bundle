@@ -5,6 +5,8 @@ namespace CatalogBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="categories",indexes={
@@ -22,13 +24,17 @@ class Category
      */
     private $id;
 
+
     /**
      * @ORM\Column(length=64, type="string", unique=true)
+     * @Groups({"group1"})
      */
     private $title;
 
+
     /**
      * @ORM\Column(name="state_flag", type="boolean")
+     * @Groups({"group2"})
      */
     private $state_flag;
 

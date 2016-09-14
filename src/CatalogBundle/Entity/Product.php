@@ -327,7 +327,7 @@ class Product
      */
     public function getCategory()
     {
-        return $this->category->getName();
+        return $this->category;
     }
 
     /**
