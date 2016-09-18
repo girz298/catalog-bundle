@@ -29,7 +29,7 @@ class CategoryType extends AbstractType
             if ((int)$value['lvl'] <= 1) {
                 $this->validCategories[str_repeat('└─', (int)$value['lvl']) . $value['title']] = $value['id'];
             } else {
-                $this->validCategories['└─' . str_repeat('─',(int)$value['lvl']-1) . $value['title']] = $value['id'];
+                $this->validCategories['└─' . str_repeat('─', (int)$value['lvl']-1) . $value['title']] = $value['id'];
             }
         }
 

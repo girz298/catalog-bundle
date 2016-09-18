@@ -2,9 +2,10 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="{{ asset('bundles/catalog/libs/bootstrap-3.3.7-dist/css/bootstrap.min.css') }}">
 
-    <link rel="stylesheet" href="{{ asset('bundles/catalog/css/css.css') }}">
+    {% stylesheets '@bootstrap_css_map' '@bootstrap_css' %}
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
+    {% endstylesheets %}
 
     <title>{% block title %}Catalog{% endblock %}</title>
     {% block stylesheets %}{% endblock %}
@@ -15,7 +16,10 @@
 <body>
 {% block body %}
 {% endblock %}
-<script src="{{ asset('bundles/catalog/libs/jquery-3.1.0/jquery-3.1.0.min.js') }}"></script>
+
+{% javascripts '@jquery' '@bootstrap_js' %}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
 {% block javascripts %}{% endblock %}
 </body>
 </html>

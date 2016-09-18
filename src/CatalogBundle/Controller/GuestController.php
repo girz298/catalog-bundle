@@ -66,12 +66,12 @@ class GuestController  extends Controller
     public function registerAction(Request $request)
     {
         $user = new User();
-        $form = $this->createForm(UserType::class,$user);
+        $form = $this->createForm(UserType::class, $user);
         $em = $this->getDoctrine()->getManager();
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
             $em->persist($user);
             $em->flush();
@@ -79,7 +79,7 @@ class GuestController  extends Controller
 
         }
 
-        return $this->render('anon/register.html.twig',[
+        return $this->render('anon/register.html.twig', [
             'form' => $form->createView(),
         ]);
     }

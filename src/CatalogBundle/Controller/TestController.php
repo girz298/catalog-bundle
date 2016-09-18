@@ -38,7 +38,7 @@ class TestController extends Controller
         $first_good->setStateFlag(true);
         $first_good->setCategory($watch);
         $first_good->setDescription("good watch");
-        $first_good->setSku(mt_rand(1,100));
+        $first_good->setSku(mt_rand(1, 100));
         $first_good->setCreationTime($now);
         $first_good->setLastModification($now);
         $first_good->addSimilarProduct($first_good);
@@ -54,7 +54,7 @@ class TestController extends Controller
             'rootClose' => '</ul>',
             'childOpen' => '<li>',
             'childClose' => '</li>',
-            'nodeDecorator' => function($node) {
+            'nodeDecorator' => function ($node) {
                 return '<a href="/category/' . $node['id'] . '">' . $node['title'] . '</a>';
             }
         ];
@@ -64,6 +64,6 @@ class TestController extends Controller
             $options
         );
 
-        return $this->render('test/test.html.twig',compact('htmlTree'));
+        return $this->render('test/test.html.twig', compact('htmlTree'));
     }
 }

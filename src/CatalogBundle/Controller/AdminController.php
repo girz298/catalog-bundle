@@ -24,7 +24,7 @@ class AdminController extends Controller
      */
     public function adminAction(Request $request)
     {
-        return $this->render("admin/admin.html.twig",[
+        return $this->render("admin/admin.html.twig", [
             'username' => $this->get('security.token_storage')->getToken()->getUsername(),
         ]);
     }

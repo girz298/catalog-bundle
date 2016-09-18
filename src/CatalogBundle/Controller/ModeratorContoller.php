@@ -79,13 +79,16 @@ class ModeratorContoller extends Controller
         $product = new Product();
         $now = new\DateTime('now');
 
-        $product->setCreationTime($now);
-        $product->setLastModification($now);
-        $form = $this->createForm(SubmitProductType::class, $product);
 
-//
 //        $sameCategory = $em->getRepository('CatalogBundle:Category')
 //            ->findOneByTitle('Bags');
+
+        $product->setCreationTime($now);
+        $product->setLastModification($now);
+//        $product->setCategory($sameCategory);
+        $form = $this->createForm(SubmitProductType::class, $product);
+
+
 
         $form->handleRequest($request);
 
