@@ -34,7 +34,7 @@ class CategoryType extends AbstractType
         }
 
         $resolver->setDefaults([
-            'choices' => $this->validCategories,
+            'choices' => $this->validCategories
         ]);
     }
 

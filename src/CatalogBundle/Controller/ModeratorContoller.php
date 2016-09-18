@@ -66,41 +66,37 @@ class ModeratorContoller extends Controller
     }
 
     /**
-     * @param Post
+     * @param Request $request
      * @Security("has_role('ROLE_MODERATOR')")
      * @Route("/product/create", name="product_create")
      * @Method({"GET","POST"})
      * @return Response
      */
-    public function createProduct(Request $request){
-
+    public function createProduct(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
-
-        $product = new Product();
-        $now = new\DateTime('now');
-
-
-//        $sameCategory = $em->getRepository('CatalogBundle:Category')
-//            ->findOneByTitle('Bags');
-
-        $product->setCreationTime($now);
-        $product->setLastModification($now);
-//        $product->setCategory($sameCategory);
-        $form = $this->createForm(SubmitProductType::class, $product);
-
-
-
+        $form = $this->createForm(SubmitProductType::class);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
-            $product = $form->getData();
-            $em->persist($product);
+        if ($form->isSubmitted()) {
+            $sameCategory = $em->getRepository('CatalogBundle:Category')
+                ->findOneByTitle('Bags');
+            $now = new\DateTime('now');
+            $first_good = new Product();
+            $first_good->setName($form->get('name')->getData());
+            $first_good->setStateFlag(true);
+            $first_good->setCategory($em->getRepository('CatalogBundle:Category')
+                ->findOneById($form->get('category')->getData()));
+            $first_good->setDescription($form->get('description')->getData());
+            $first_good->setSku($form->get('sku')->getData());
+            $first_good->setCreationTime($now);
+            $first_good->setLastModification($now);
+            $em->persist($first_good);
             $em->flush();
-            return $this->redirectToRoute('index');
-
+            return $this->redirectToRoute('product_create');
         }
 
-        return $this->render('moderator/add_product.html.twig',[
+        return $this->render('moderator/add_product.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -121,7 +117,7 @@ class ModeratorContoller extends Controller
         $em = $this->getDoctrine()->getManager();
         $prodRepo = $em->getRepository('CatalogBundle:Product');
         $product = $prodRepo->findOneById($id);
-        if ($product === null){
+        if ($product === null) {
             return new Response('0');
         } else {
             $em->remove($product);

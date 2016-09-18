@@ -60,7 +60,6 @@ class Product
 
     /**
      * @var bool
-     *
      * @ORM\Column(name="state_flag", type="boolean")
      */
     private $stateFlag;

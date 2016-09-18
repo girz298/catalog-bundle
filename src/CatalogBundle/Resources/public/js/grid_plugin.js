@@ -5,7 +5,7 @@
 
         var options = {
             sortableColumn: 'id',
-            itemsPerPage: 10,
+            itemsPerPage: 6,
             page: 1,
             direction: 1
         };
@@ -136,7 +136,7 @@
                 // $('#titem'+id).hide("fast", function () {
                     removeAjax(id);
                 // });
-                prettyRemoveHelper();
+                // prettyRemoveHelper();
             });
         }
         

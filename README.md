@@ -5,8 +5,7 @@
 * Деликатор Виктория
 
 
-**Простой запуск: php bin/console server:run**
-
-**Не забываем composer install для подхвата зависимостей**
-
-**Чтобы все заработало нужно будет сделать assets:install --symlink т.к Bootstrap и Jquery хранятся в репозитории а не ставятся через composer!!!**
+**Простой запуск:**
+* composer install
+* php bin/console catalog:build
+* php bin/console server:run либо сразу на Apache 

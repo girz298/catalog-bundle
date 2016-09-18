@@ -81,7 +81,7 @@ assetic:
                 - "%kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.min.js"
         bootstrap_css_map:
             inputs:
-                - "%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.min.css.map"
+                - "%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.css.map"
             output: "css/bootstrap.css.map"
         bootstrap_css:
             inputs:
