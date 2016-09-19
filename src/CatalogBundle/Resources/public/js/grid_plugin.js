@@ -42,7 +42,7 @@
                 var tr = $('#titem'+item['id']+'');
                 for (var pole in item){
                     if (pole != 'category') {
-                        tr.append('<td>' + item[pole] + '</td>');
+                        tr.append('<td>' + (item[pole]+"").slice(0,20) + '</td>');
                     } else {
                         tr.append('<td>' + item['category']['title'] + '</td>');
                     }

@@ -1,6 +1,18 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/catalog/css/menu/menu.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/catalog/css/main/main.css') }}">
+{% endblock %}
 
 {% block body %}
-    {{ htmlTree | raw }}
+    <div class="testclass">
+        <div id='cssmenu'>
+            {{ htmlTree | raw }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/catalog/js/menu/menu.js') }}"></script>
 {% endblock %}

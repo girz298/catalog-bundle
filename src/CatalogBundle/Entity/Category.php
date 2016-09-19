@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     @ORM\Index(name="title", columns={"title"}),
  *     @ORM\Index(name="state_flag", columns={"state_flag"})})
  *
- * @ORM\Entity(repositoryClass="CatalogBundle\Entity\CategoryRepository")
+ * @ORM\Entity(repositoryClass="CatalogBundle\Repository\CategoryRepository")
  */
 class Category
 {
@@ -82,6 +82,14 @@ class Category
      */
     private $children;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -115,13 +123,6 @@ class Category
     public function getParent()
     {
         return $this->parent;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->children = new ArrayCollection();
     }
 
     /**
@@ -243,24 +244,6 @@ class Category
     {
         return $this->children;
     }
-
-    /**
-     * Set stateFlag
-     *
-     * @param boolean $stateFlag
-     *
-     * @return Category
-     */
-
-
-    /**
-     * Set stateLag
-     *
-     * @param boolean $stateLag
-     *
-     * @return Category
-     */
-
 
     /**
      * Set stateFlag

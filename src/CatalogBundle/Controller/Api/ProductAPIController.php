@@ -58,9 +58,15 @@ class ProductAPIController extends Controller
         $serializer = new Serializer([$normalizer], [$encoder]);
 
         $result = $this
-            ->get('app.product_api_service')
-            ->serializeProducts($em, $serializer, $page,
-                $per_page, $ordered_by ,$direction);
+            ->get('app.product_serializer')
+            ->serializeProducts(
+                $em,
+                $serializer,
+                $page,
+                $per_page,
+                $ordered_by,
+                $direction
+            );
 
         return $result;
     }

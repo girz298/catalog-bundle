@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-class GuestController  extends Controller
+class GuestController extends Controller
 {
     /**
      * @Route("/", name="index")
@@ -58,7 +58,7 @@ class GuestController  extends Controller
     }
 
     /**
-     * @param Post
+     * @param Request $request
      * @Route("/register", name="register")
      * @Method({"GET","POST"})
      * @return Response

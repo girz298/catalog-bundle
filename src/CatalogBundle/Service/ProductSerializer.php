@@ -5,7 +5,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProductAPIService
+class ProductSerializer
 {
     /**
      * @param EntityManager $em
@@ -23,14 +23,12 @@ class ProductAPIService
         $per_page,
         $ordered_by,
         $direction
-        )
-    {
+    ) {
         $products = $em
             ->getRepository('CatalogBundle:Product')
             ->getByPage($page, $per_page, $ordered_by, $direction);
 
         $response = new Response($serializer->serialize($products, 'json'));
-//        $response = new Response(json_encode($products));
         $response->headers->set('Content-Type', 'application/vnd.api+json');
 
         return $response;

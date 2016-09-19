@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: doctor
- * Date: 01.09.16
- * Time: 19:14
- */
-
-namespace CatalogBundle\Entity;
+namespace CatalogBundle\Repository;
 
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Doctrine\ORM\EntityRepository;

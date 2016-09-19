@@ -1,7 +1,5 @@
 <?php
-
-namespace CatalogBundle\Entity;
-
+namespace CatalogBundle\Repository;
 
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 
@@ -13,10 +11,11 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
  */
 class CategoryRepository extends NestedTreeRepository
 {
-    public function getAllbyIdNameLvl(){
+    public function getAllbyIdNameLvl()
+    {
         return $this->_em->createQueryBuilder()
             ->select('n.id, n.title, n.lvl')
-            ->from('CatalogBundle:Category','n')
+            ->from('CatalogBundle:Category', 'n')
             ->getQuery()
             ->getResult();
     }

@@ -3,7 +3,6 @@ namespace CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     @ORM\Index(name="role", columns={"role"}),
  *     @ORM\Index(name="password", columns={"password"}),
  *     @ORM\Index(name="is_active", columns={"is_active"})})
- * @ORM\Entity(repositoryClass="CatalogBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass="CatalogBundle\Repository\UserRepository")
  */
 class User implements UserInterface
 {

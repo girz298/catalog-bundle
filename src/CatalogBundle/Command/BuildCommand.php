@@ -1,7 +1,6 @@
 <?php
 namespace CatalogBundle\Command;
 
-
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -72,7 +71,7 @@ class BuildCommand extends Command
 
         $output->writeln("");
 
-        $output->writeln('Installing assets');
+        $output->writeln('Installing assets...');
 
         $assetic = $this->getApplication()->find('assetic:dump');
         $some_input = new ArrayInput(['command' => 'assetic:dump']);

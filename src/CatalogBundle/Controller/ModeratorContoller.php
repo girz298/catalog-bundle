@@ -79,8 +79,6 @@ class ModeratorContoller extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $sameCategory = $em->getRepository('CatalogBundle:Category')
-                ->findOneByTitle('Bags');
             $now = new\DateTime('now');
             $first_good = new Product();
             $first_good->setName($form->get('name')->getData());

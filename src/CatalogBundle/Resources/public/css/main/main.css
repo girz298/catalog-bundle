@@ -1,0 +1,17 @@
+html,body {
+    height: 100%;
+}
+
+.testclass {
+    /*height: 659px;*/
+    height: 100%;
+    overflow-y: scroll;
+    width: 315px;
+    background-color: #44565a;
+}
+
+.testclass2 {
+    height: 659px;
+    background-color: #563d7c;
+    width: 500px;
+}

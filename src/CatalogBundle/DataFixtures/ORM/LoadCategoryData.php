@@ -33,7 +33,14 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
             $child->setTitle($child_name);
             $child->setStateFlag(true);
             $child->setParent($electron);
+
+            $child2 = new Category();
+            $child2->setTitle($child_name . ' Test');
+            $child2->setStateFlag(true);
+            $child2->setParent($child);
+
             $manager->persist($child);
+            $manager->persist($child2);
         }
 
         $computers = new Category();
