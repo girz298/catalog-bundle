@@ -11,6 +11,12 @@
             {{ htmlTree | raw }}
         </div>
     </div>
+
+    <div class="testclass2">
+        {% if id is defined %}
+            <h1>All products by category</h1> {{ id }}
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block javascripts %}

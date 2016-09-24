@@ -136,7 +136,7 @@
                 // $('#titem'+id).hide("fast", function () {
                     removeAjax(id);
                 // });
-                // prettyRemoveHelper();
+                prettyRemoveHelper();
             });
         }
         

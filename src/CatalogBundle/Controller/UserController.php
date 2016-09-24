@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-class UserController
+class UserController extends Controller
 {
     /**
      * @Route(
@@ -56,6 +56,7 @@ class UserController
      */
     public function getProductsByCategoryAction($id)
     {
-        return new Response('All products be category with id: ' . $id);
+        $htmlTree = $this->get('app.category_menu_generator')->getMenu();
+        return $this->render('test/test.html.twig', compact('htmlTree', 'id'));
     }
 }

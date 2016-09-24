@@ -6,12 +6,14 @@ html,body {
     /*height: 659px;*/
     height: 100%;
     overflow-y: scroll;
-    width: 315px;
     background-color: #44565a;
+    float: left;
+    width: 17%;
 }
 
 .testclass2 {
+    float: right;
     height: 659px;
+    width: 83%;
     background-color: #563d7c;
-    width: 500px;
 }
