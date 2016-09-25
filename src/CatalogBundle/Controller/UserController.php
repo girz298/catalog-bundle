@@ -6,12 +6,19 @@
  * Time: 1:34
  */
 namespace CatalogBundle\Controller;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use CatalogBundle\Entity\Product;
 
+/**
+ * Class UserController
+ * @package CatalogBundle\Controller
+ */
 class UserController extends Controller
 {
     /**
@@ -33,15 +40,19 @@ class UserController extends Controller
 
     /**
      * @Route(
-     *     "/product/{scu}",
+     *     "/product/{id}",
      *     name="products_by_scu"
      * )
      * @Security("has_role('ROLE_USER')")
      * @Method({"GET"})
      */
-    public function getProductsByScuAction($scu)
+    public function getProductsByScuAction($id)
     {
-        return new Response('all information about product by scu: ' . $scu);
+        $em = $this->getDoctrine()->getManager();
+        $repo = $em->getRepository('CatalogBundle:Product');
+        $product = $repo->findOneById($id);
+        $htmlTree = $this->get('app.category_menu_generator')->getMenu();
+        return $this->render('test/test.html.twig', compact('htmlTree', 'product'));
     }
 
     /**
@@ -54,9 +65,27 @@ class UserController extends Controller
      * @Security("has_role('ROLE_USER')")
      * @Method({"GET"})
      */
-    public function getProductsByCategoryAction($id)
+    public function getProductsByCategoryAction(Request $request, $id)
     {
+        $em = $this->getDoctrine()->getManager();
+//        $query = $em
+//            ->createQuery("SELECT a FROM CatalogBundle:Product a");
+        $query = $em
+            ->createQueryBuilder()
+            ->select('p')
+            ->from('CatalogBundle:Product', 'p')
+            ->where('p.category=' . $id)
+            ->getQuery();
+
+        $paginator = $this->get('knp_paginator');
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            8
+        );
+
         $htmlTree = $this->get('app.category_menu_generator')->getMenu();
-        return $this->render('test/test.html.twig', compact('htmlTree', 'id'));
+        return $this->render('test/test.html.twig', compact('htmlTree', 'id', 'pagination'));
     }
 }

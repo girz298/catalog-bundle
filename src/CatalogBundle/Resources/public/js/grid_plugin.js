@@ -5,9 +5,9 @@
 
         var options = {
             sortableColumn: 'id',
-            itemsPerPage: 6,
+            itemsPerPage: 8,
             page: 1,
-            direction: 1
+            direction: 0
         };
 
         function setTable() {
@@ -75,8 +75,9 @@
             $('#prev-btn').remove();
             $('#next-btn').remove();
             $.ajax({
-                url: 'http://localhost:8000/api/products/'+options.page+'/'+
-                options.itemsPerPage+'/'+options.sortableColumn+'/'+
+                url: 'http://localhost:8000/api/products'
+                + '?page=' + options.page+'&per_page='+
+                options.itemsPerPage+'&ordered_by='+options.sortableColumn+'&direction='+
                 options.direction,
                 success: function(data){
                     setTable();
@@ -136,7 +137,7 @@
                 // $('#titem'+id).hide("fast", function () {
                     removeAjax(id);
                 // });
-                prettyRemoveHelper();
+                // prettyRemoveHelper();
             });
         }
         
@@ -158,8 +159,9 @@
 
         function prettyRemoveHelper() {
             $.ajax({
-                url: 'http://localhost:8000/api/products/'+((options.page*options.itemsPerPage))+'/'+
-                1+'/'+options.sortableColumn+'/'+
+                url: 'http://localhost:8000/api/products/'
+                +((options.page*options.itemsPerPage)) + '/'
+                + 1 + '/'+options.sortableColumn+'/' +
                 options.direction,
                 success: function(data){
                     setBody(data, 1);

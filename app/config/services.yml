@@ -14,6 +14,7 @@ services:
 
     app.product_serializer:
         class: CatalogBundle\Service\ProductSerializer
+        arguments: ["@doctrine.orm.entity_manager"]
 
     app.form.type.category:
         class: CatalogBundle\Form\Type\CategoryType

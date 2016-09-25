@@ -41,7 +41,6 @@ class ModeratorContoller extends Controller
      * @Security("has_role('ROLE_MODERATOR')")
      * @Route("/product/crud", name="product_crud")
      * @Method({"GET","POST"})
-     * @return Response
      */
     public function gridProducts()
     {
@@ -83,15 +82,19 @@ class ModeratorContoller extends Controller
             $first_good = new Product();
             $first_good->setName($form->get('name')->getData());
             $first_good->setStateFlag(true);
-            $first_good->setCategory($em->getRepository('CatalogBundle:Category')
-                ->findOneById($form->get('category')->getData()));
+            $first_good->setCategory(
+                $em
+                    ->getRepository('CatalogBundle:Category')
+                    ->findOneById($form->get('category')->getData())
+            );
             $first_good->setDescription($form->get('description')->getData());
             $first_good->setSku($form->get('sku')->getData());
             $first_good->setCreationTime($now);
             $first_good->setLastModification($now);
             $em->persist($first_good);
             $em->flush();
-            return $this->redirectToRoute('product_create');
+
+            return $this->redirectToRoute('product_crud');
         }
 
         return $this->render('moderator/add_product.html.twig', [

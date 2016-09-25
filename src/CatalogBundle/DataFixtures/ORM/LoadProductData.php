@@ -11,7 +11,7 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
     public function load(ObjectManager $manager)
     {
         $repo = $manager->getRepository('CatalogBundle:Category');
-        $category = $repo->findOneByTitle('Гаджеты');
+        $category = $repo->findOneByTitle('Прочее');
 
         for ($i = 0; $i < 20; $i++) {
             $now = new\DateTime('now');
@@ -20,7 +20,7 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
             $product->setStateFlag(true);
             $product->setCategory($category);
             $product->setDescription("good watch");
-            $product->setSku(mt_rand(1, 10000));
+            $product->setSku($i+100);
             $product->setCreationTime($now);
             $product->setLastModification($now);
             $product->addSimilarProduct($product);

@@ -13,8 +13,70 @@
     </div>
 
     <div class="testclass2">
-        {% if id is defined %}
-            <h1>All products by category</h1> {{ id }}
+        {% include 'templates/navbar.html.twig' %}
+        {#{% if id is defined %}#}
+            {#<h1>All products by category {{ id }}</h1>#}
+        {#{% endif %}#}
+
+        {% if product is defined %}
+            {{ product.id }}
+            {{ product.name }}
+            {{ product.image }}
+            {{ product.sku }}
+            {{ product.stateFlag }}
+            {{ product.creationTime | date }}
+        {% endif %}
+        {% if pagination is defined %}
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th {% if pagination.isSorted('a.id') %}
+                            class="sorted" {% endif %} >
+                            {{ knp_pagination_sortable(pagination, '#', 'a.id') }}</th>
+                        <th {% if pagination.isSorted('a.name') %}
+                            class="sorted" {% endif %} >
+                            {{ knp_pagination_sortable(pagination, 'Name', 'a.name') }}</th>
+                        <th> Description</th>
+
+                        <th {% if pagination.isSorted('a.creationTime') %}
+                            class="sorted" {% endif %} >
+                            {{ knp_pagination_sortable(pagination,
+                            'CreationTime', 'a.creationTime') }} </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for article in pagination %}
+                            <tr>
+                                <td>
+                                    <a href="/product/{{ article.id }}">
+                                        {{ article.id }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/product/{{ article.id }}">
+                                        {{ article.name }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/product/{{ article.id }}">
+                                        {{ article.description | slice(0,20)}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/product/{{ article.id }}">
+                                        {{ article.creationTime | date('Y-m-d') }}
+                                    </a>
+                                </td>
+                            </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="navigation" style="padding-left: 20px">
+                {{ knp_pagination_render(pagination) }}
+            </div>
         {% endif %}
     </div>
 {% endblock %}

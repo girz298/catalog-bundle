@@ -13,7 +13,19 @@ html,body {
 
 .testclass2 {
     float: right;
-    height: 659px;
+    color: #008080;
+    height: 100%;
     width: 83%;
-    background-color: #563d7c;
+    background-color: #FFFFFF;
+}
+
+td a {
+    text-decoration: none;
+    display: block;
+}
+
+.brand-decor {
+    font-size: 28px !important;
+    color: #009999 !important;
+    text-shadow: 2px -2px 0 #008080;
 }

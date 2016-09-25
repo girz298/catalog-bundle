@@ -1,25 +1,27 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <div style="height: 100px;"></div>
+    <div style="height: 200px;"></div>
     <div class="container">
         {% if error %}
-            <div class="alert alert-danger"><strong>Error!</strong> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="alert alert-danger">
+                <strong>Error!</strong> {{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
-        <form action="{{ path('login') }}" id="signin" role="form" method="post">
+            <form action="{{ path('login') }}" id="signin" role="form" method="post">
+                <div>
+                    <label for="_username" class="required">Username</label>
+                    <input id="username" type="text" class="form-control" name="_username" value="{{ last_username }}"
+                           placeholder="Username"
+                           style="margin-bottom: 15px">
+                </div>
 
-            <div >
-                <label for="_username" class="required">Username</label>
-                <input id="username" type="text" class="form-control" name="_username" value="{{ last_username }}" placeholder="Username"
-                style="margin-bottom: 15px">
-            </div>
-
-            <div>
-                <label for="_password" class="required">Password</label>
-                <input id="password" type="password" class="form-control" name="_password" value="" placeholder="Password" style="margin-bottom: 15px">
-            </div>
-            <input type="hidden" name="_target_path" value="/"/>
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
+                <div>
+                    <label for="_password" class="required">Password</label>
+                    <input id="password" type="password" class="form-control" name="_password" value=""
+                           placeholder="Password" style="margin-bottom: 15px">
+                </div>
+                <input type="hidden" name="_target_path" value="/"/>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
     </div>
 {% endblock %}

@@ -16,52 +16,20 @@ class ProductAPIController extends Controller
 {
     /**
      * @Security("has_role('ROLE_MODERATOR')")
-     * @Route(
-     *     "/api/products/{page}/{per_page}/{ordered_by}/{direction}",
-     *     requirements={
-     *          "page" = "[0-9]{1,5}",
-     *          "per_page" = "[0-9]{1,3}"
-     *     },
-     *     defaults={
-     *          "page" = 1,
-     *          "per_page" = 100,
-     *          "ordered_by" = "id",
-     *          "direction" = 1
-     *     },
-     *     name = "api_per_page"
-     *     )
+     * @Route("/api/products", name="api_per_page")
      * @return Response
      */
-    public function getProductsByPageAction($page, $per_page, $ordered_by, $direction)
+    public function getProductsByPageAction(Request $request)
     {
-        // api/products/1/5/name/1
-        $em = $this->getDoctrine()->getManager();
-
-        $encoder = new JsonEncoder();
-        $normalizer = new ObjectNormalizer();
-
-        $normalizer->setCircularReferenceHandler(function ($object) {
-            return $object->getName();
-        });
-
-        $normalizer->setCircularReferenceLimit(0);
-        $normalizer->setIgnoredAttributes([
-            'creationTime',
-            'lastModification',
-            'similarProducts',
-            'image',
-            'parent',
-            'children',
-            'products'
-        ]);
-
-        $serializer = new Serializer([$normalizer], [$encoder]);
+        //products?page=1&per_page=5&ordered_by=id&direction=1
+        $page = $request->get('page') ? $request->get('page') : 1;
+        $per_page = $request->get('per_page') ? $request->get('per_page') : 5;
+        $ordered_by = $request->get('ordered_by') ? $request->get('ordered_by') : 'id';
+        $direction = $request->get('direction') ? $request->get('direction') : 0;
 
         $result = $this
             ->get('app.product_serializer')
             ->serializeProducts(
-                $em,
-                $serializer,
                 $page,
                 $per_page,
                 $ordered_by,
