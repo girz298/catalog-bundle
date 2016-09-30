@@ -2,6 +2,9 @@
 namespace CatalogBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use CatalogBundle\Entity\Category;
+use Symfony\Component\Form\Form;
+use CatalogBundle\Entity\Product;
 
 /**
  * ProductRepository
@@ -44,5 +47,35 @@ class ProductRepository extends EntityRepository
             ->getQuery();
 
         return $products;
+    }
+
+    public function insertDataFromForm(Form $form)
+    {
+        /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+        $file = $form->get('image')->getData();
+        $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+        $file->move(
+            'uploads/images',
+            $fileName
+        );
+
+        $now = new\DateTime('now');
+        $first_good = new Product();
+        $first_good->setName($form->get('name')->getData());
+        $first_good->setStateFlag(true);
+        $first_good->setCategory(
+            $this->_em
+                ->getRepository('CatalogBundle:Category')
+                ->findOneById($form->get('category')->getData())
+        );
+
+        $first_good->setDescription($form->get('description')->getData());
+        $first_good->setSku($form->get('sku')->getData());
+        $first_good->setCreationTime($now);
+        $first_good->setLastModification($now);
+        $first_good->setImage($fileName);
+        $this->_em->persist($first_good);
+        $this->_em->flush();
     }
 }

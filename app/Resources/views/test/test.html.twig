@@ -21,7 +21,7 @@
         {% if product is defined %}
             {{ product.id }}
             {{ product.name }}
-            {{ product.image }}
+            <img src="{{ relative_path('/uploads/images/') }}{{ product.image }}" alt="">
             {{ product.sku }}
             {{ product.stateFlag }}
             {{ product.creationTime | date }}
@@ -31,18 +31,18 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th {% if pagination.isSorted('a.id') %}
+                        <th {% if pagination.isSorted('p.id') %}
                             class="sorted" {% endif %} >
-                            {{ knp_pagination_sortable(pagination, '#', 'a.id') }}</th>
-                        <th {% if pagination.isSorted('a.name') %}
+                            {{ knp_pagination_sortable(pagination, '#', 'p.id') }}</th>
+                        <th {% if pagination.isSorted('p.name') %}
                             class="sorted" {% endif %} >
-                            {{ knp_pagination_sortable(pagination, 'Name', 'a.name') }}</th>
+                            {{ knp_pagination_sortable(pagination, 'Name', 'p.name') }}</th>
                         <th> Description</th>
 
-                        <th {% if pagination.isSorted('a.creationTime') %}
+                        <th {% if pagination.isSorted('p.creationTime') %}
                             class="sorted" {% endif %} >
                             {{ knp_pagination_sortable(pagination,
-                            'CreationTime', 'a.creationTime') }} </th>
+                            'CreationTime', 'p.creationTime') }} </th>
                     </tr>
                     </thead>
                     <tbody>

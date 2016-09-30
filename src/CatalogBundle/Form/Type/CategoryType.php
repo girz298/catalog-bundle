@@ -23,7 +23,7 @@ class CategoryType extends AbstractType
     {
         $this->categoryChoices = $this->em
             ->getRepository('CatalogBundle:Category')
-            ->getAllbyIdNameLvl();
+            ->getAllByIdNameLvl();
 
         foreach ($this->categoryChoices as $key => $value) {
             if ((int)$value['lvl'] <= 1) {

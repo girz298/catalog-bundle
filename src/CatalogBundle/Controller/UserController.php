@@ -13,79 +13,65 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use CatalogBundle\Entity\Product;
+use CatalogBundle\Form\UserType;
+use CatalogBundle\Entity\User;
 
-/**
- * Class UserController
- * @package CatalogBundle\Controller
- */
 class UserController extends Controller
 {
     /**
-     * @Route(
-     *     "/products/{page}",
-     *     requirements={"page" = "[0-9]{1,3}"},
-     *     defaults={"page" = 1},
-     *     name="products_by_page"
-     * )
-     * @Security("has_role('ROLE_USER')")
+     * @Route("/", name="index")
      * @Method({"GET"})
+     * @return Response
      */
-    public function getProductsByPageAction($page)
+    public function indexAction()
     {
-        $onPage = (int)$page*20;
-        $resp = 'products from ' . $onPage . ' to ' . ($onPage+20);
-        return new Response($resp);
+        return $this->render('anon/index.html.twig');
     }
 
     /**
-     * @Route(
-     *     "/product/{id}",
-     *     name="products_by_scu"
-     * )
-     * @Security("has_role('ROLE_USER')")
-     * @Method({"GET"})
+     * @param Post
+     * @Route("/login", name="login")
+     * @Method({"POST","GET"})
+     * @return Response
      */
-    public function getProductsByScuAction($id)
+    public function loginAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $repo = $em->getRepository('CatalogBundle:Product');
-        $product = $repo->findOneById($id);
-        $htmlTree = $this->get('app.category_menu_generator')->getMenu();
-        return $this->render('test/test.html.twig', compact('htmlTree', 'product'));
-    }
-
-    /**
-     * @Route(
-     *     "/category/{id}",
-     *     requirements={"id" = "[0-9]{1,3}"},
-     *     defaults={"page" = 1},
-     *     name="products_by_category"
-     * )
-     * @Security("has_role('ROLE_USER')")
-     * @Method({"GET"})
-     */
-    public function getProductsByCategoryAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-//        $query = $em
-//            ->createQuery("SELECT a FROM CatalogBundle:Product a");
-        $query = $em
-            ->createQueryBuilder()
-            ->select('p')
-            ->from('CatalogBundle:Product', 'p')
-            ->where('p.category=' . $id)
-            ->getQuery();
-
-        $paginator = $this->get('knp_paginator');
-
-        $pagination = $paginator->paginate(
-            $query,
-            $request->query->getInt('page', 1),
-            8
+        $authenticationUtils = $this->get('security.authentication_utils');
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render(
+            'security/login.html.twig',
+            [
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            ]
         );
+    }
 
-        $htmlTree = $this->get('app.category_menu_generator')->getMenu();
-        return $this->render('test/test.html.twig', compact('htmlTree', 'id', 'pagination'));
+    /**
+     * @param Request $request
+     * @Route("/register", name="register")
+     * @Method({"GET","POST"})
+     * @return Response
+     */
+    public function registerAction(Request $request)
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $em = $this->getDoctrine()->getManager();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute('login');
+
+        }
+
+        return $this->render('anon/register.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

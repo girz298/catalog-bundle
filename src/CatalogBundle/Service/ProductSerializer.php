@@ -45,7 +45,8 @@ class ProductSerializer
             'image',
             'parent',
             'children',
-            'products'
+            'products',
+            'productDataToForm'
         ]);
 
         $serializer = new Serializer([$normalizer], [$encoder]);

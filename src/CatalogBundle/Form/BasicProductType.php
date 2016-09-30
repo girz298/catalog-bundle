@@ -22,6 +22,13 @@ class BasicProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('image', FileType::class, [
+                'attr' => [
+                    'label' => 'Image File',
+                    'class' => 'form_control',
+                    'style' => 'margin-bottom:15px'
+                ]
+            ])
             ->add('name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',

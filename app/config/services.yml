@@ -25,3 +25,7 @@ services:
     app.category_menu_generator:
         class: CatalogBundle\Service\CategoryMenuGenerator
         arguments: ["@doctrine.orm.entity_manager"]
+
+    app.category_paginator_generator:
+        class: CatalogBundle\Service\PaginatorGenerator
+        arguments: ["@doctrine.orm.entity_manager"]

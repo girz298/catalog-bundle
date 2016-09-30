@@ -11,7 +11,7 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
  */
 class CategoryRepository extends NestedTreeRepository
 {
-    public function getAllbyIdNameLvl()
+    public function getAllByIdNameLvl()
     {
         return $this->_em->createQueryBuilder()
             ->select('n.id, n.title, n.lvl')

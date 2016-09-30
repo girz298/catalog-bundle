@@ -5,6 +5,8 @@ namespace CatalogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Table(name="products",indexes={
  *     @ORM\Index(name="name", columns={"name"}),
@@ -95,8 +97,8 @@ class Product
 
     /**
      * @var string
-     *
      * @ORM\Column(name="image", type="string", length=50, nullable=true)
+     * @Assert\Image
      */
     private $image;
 
@@ -342,5 +344,15 @@ class Product
     public function getSimilarProducts()
     {
         return $this->similar_products;
+    }
+
+    public function getProductDataToForm()
+    {
+        return [
+            'name' => $this->getName(),
+            'sku' => $this->getSku(),
+            'description' => $this->getDescription(),
+            'state_flag' => $this->getStateFlag(),
+        ];
     }
 }

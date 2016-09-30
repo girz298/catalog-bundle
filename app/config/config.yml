@@ -8,6 +8,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    images_directory: '%kernel.root_dir%/../web/uploads/images'
 
 framework:
     #esi:             ~
@@ -114,10 +115,10 @@ assetic:
 
 #KNPPatinationBundle
 knp_paginator:
-    page_range: 1
+    page_range: 2
     default_options:
         page_name: page
-        sort_field_name: sort_by
+        sort_field_name: sort
         sort_direction_name: direction
         distinct: true
     template:

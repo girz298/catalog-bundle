@@ -1,14 +1,7 @@
 (function ($) {
 
-    $.fn.gridPlugin = function () {
+    $.fn.gridPlugin = function (options) {
         var that = this;
-
-        var options = {
-            sortableColumn: 'id',
-            itemsPerPage: 8,
-            page: 1,
-            direction: 0
-        };
 
         function setTable() {
             that.append('<table></table>');
@@ -50,12 +43,12 @@
 
                 tr.append('<td>' +
                     '<div class="btn-group" role="group" >' +
-                    '<button id="view' + item['id'] +
+                    '<a href="'+ options.rootURL + '/product/' + item['id'] + '"  id="view' + item['id'] +
                     '" class="btn btn-info view-btn" >' +
-                    '<span class="glyphicon glyphicon-book" ></span></button>' +
-                    '<button id="edit' + item['id'] +
+                    '<span class="glyphicon glyphicon-book" ></span></a>' +
+                    '<a href="' + options.rootURL + '/product/' + item['id'] + '/edit" id="edit' + item['id'] +
                     '" class="btn btn-primary edit-btn">' +
-                    '<span class="glyphicon glyphicon-pencil"></span></button>' +
+                    '<span class="glyphicon glyphicon-pencil"></span></a>' +
                     '<button id="remove' + item['id'] +
                     '" class="btn btn-danger remove-btn">' +
                     '<span class="glyphicon glyphicon-remove"></span></button>' +
@@ -176,4 +169,10 @@
 })(jQuery);
 
 
-$('#grid-table').gridPlugin();
+$('#grid-table').gridPlugin({
+    rootURL: 'http://localhost:8000',
+    sortableColumn: 'id',
+    itemsPerPage: 5,
+    page: 1,
+    direction: 0
+});

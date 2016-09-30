@@ -8,9 +8,17 @@
     <div style="height: 100px;"></div>
 
     <div class="container">
-        <h1>PRODUCT :: CRUD <a href="{{ path('product_create') }}" class="btn btn-success" style="margin-bottom: 15px">Add Product</a> </h1>
-        <div id="grid-table">
-
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <a href="{{ path('product_create') }}" class="btn btn-lg btn-success btn-block" style="margin-bottom: 15px">
+                    Add Product
+                </a>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+            <div id="grid-table"></div>
         </div>
     </div>
 {% endblock %}
