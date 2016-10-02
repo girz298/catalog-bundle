@@ -16,6 +16,10 @@ services:
         class: CatalogBundle\Service\ProductSerializer
         arguments: ["@doctrine.orm.entity_manager"]
 
+    app.user_serializer:
+        class: CatalogBundle\Service\UserSerializer
+        arguments: ["@doctrine.orm.entity_manager"]
+
     app.form.type.category:
         class: CatalogBundle\Form\Type\CategoryType
         arguments: ["@doctrine.orm.entity_manager"]

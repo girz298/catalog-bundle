@@ -16,10 +16,14 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
         for ($i = 0; $i < 20; $i++) {
             $now = new\DateTime('now');
             $product = new Product();
-            $product->setName("Rolex");
+            $product->setName('Rolex');
             $product->setStateFlag(true);
             $product->setCategory($category);
-            $product->setDescription("good watch");
+            $product->setDescription('Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+             Accusamus amet aspernatur fugiat mollitia perspiciatis provident quasi quis 
+             quisquam, sunt tempore. Adipisci cumque deserunt doloremque ipsam, laudantium 
+             quam quos voluptas voluptatum.');
+            $product->setImage('91bf6f17b8196330930561b887e94b85.png');
             $product->setSku($i+100);
             $product->setCreationTime($now);
             $product->setLastModification($now);

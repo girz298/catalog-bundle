@@ -14,67 +14,44 @@
 
     <div class="testclass2">
         {% include 'templates/navbar.html.twig' %}
-        {#{% if id is defined %}#}
-            {#<h1>All products by category {{ id }}</h1>#}
-        {#{% endif %}#}
-
-        {% if product is defined %}
-            {{ product.id }}
-            {{ product.name }}
-            <img src="{{ relative_path('/uploads/images/') }}{{ product.image }}" alt="">
-            {{ product.sku }}
-            {{ product.stateFlag }}
-            {{ product.creationTime | date }}
-        {% endif %}
         {% if pagination is defined %}
             <div>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th {% if pagination.isSorted('p.id') %}
-                            class="sorted" {% endif %} >
-                            {{ knp_pagination_sortable(pagination, '#', 'p.id') }}</th>
-                        <th {% if pagination.isSorted('p.name') %}
-                            class="sorted" {% endif %} >
-                            {{ knp_pagination_sortable(pagination, 'Name', 'p.name') }}</th>
-                        <th> Description</th>
+                {#<table class="table table-striped">#}
+                    {#<thead>#}
+                    {#<tr>#}
+                        {#<th {% if pagination.isSorted('p.id') %}#}
+                            {#class="sorted" {% endif %} >#}
+                            {#{{ knp_pagination_sortable(pagination, '#', 'p.id') }}</th>#}
+                        {#<th {% if pagination.isSorted('p.name') %}#}
+                            {#class="sorted" {% endif %} >#}
+                            {#{{ knp_pagination_sortable(pagination, 'Name', 'p.name') }}</th>#}
+                        {#<th> Description</th>#}
 
-                        <th {% if pagination.isSorted('p.creationTime') %}
-                            class="sorted" {% endif %} >
-                            {{ knp_pagination_sortable(pagination,
-                            'CreationTime', 'p.creationTime') }} </th>
-                    </tr>
-                    </thead>
-                    <tbody>
+                        {#<th {% if pagination.isSorted('p.creationTime') %}#}
+                            {#class="sorted" {% endif %} >#}
+                            {#{{ knp_pagination_sortable(pagination,#}
+                            {#'CreationTime', 'p.creationTime') }} </th>#}
+                    {#</tr>#}
+                    {#</thead>#}
+                    {#<tbody>#}
                     {% for article in pagination %}
-                            <tr>
-                                <td>
-                                    <a href="/product/{{ article.id }}">
-                                        {{ article.id }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/product/{{ article.id }}">
-                                        {{ article.name }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/product/{{ article.id }}">
-                                        {{ article.description | slice(0,20)}}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/product/{{ article.id }}">
-                                        {{ article.creationTime | date('Y-m-d') }}
-                                    </a>
-                                </td>
-                            </tr>
-
+                        <div class="col-md-3">
+                            <div class="thumbnail" style="overflow: hidden;height: 400px">
+                                <img src="{{ relative_path('/uploads/images/') }}{{ article.image }}" alt="...">
+                                <div class="caption">
+                                    <h3>{{ article.name }}</h3>
+                                    <p>{{ article.description | slice(1,90) }}...</p>
+                                    <p><a href="/product/{{ article.id }}" class="btn btn-primary" role="button">View</a> </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <h1 style="text-align: center">Not found products by this category!</h1>
                     {% endfor %}
-                    </tbody>
-                </table>
+                    {#</tbody>#}
+                {#</table>#}
             </div>
-            <div class="navigation" style="padding-left: 20px">
+            <div class="navigation" style="padding-left: 20px;width: 100%;float: right;">
                 {{ knp_pagination_render(pagination) }}
             </div>
         {% endif %}

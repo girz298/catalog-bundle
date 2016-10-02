@@ -8,14 +8,15 @@ html,body {
     overflow-y: scroll;
     background-color: #44565a;
     float: left;
-    width: 17%;
+    width: 20%;
 }
 
 .testclass2 {
     float: right;
+    overflow-y: scroll;
     color: #008080;
     height: 100%;
-    width: 83%;
+    width: 80%;
     background-color: #FFFFFF;
 }
 
@@ -28,4 +29,25 @@ td a {
     font-size: 28px !important;
     color: #009999 !important;
     text-shadow: 2px -2px 0 #008080;
+}
+
+.affix {
+    top: 0;
+    width: 100%;
+}
+
+.row {
+    margin: 0 !important;
+}
+
+.similar-products {
+    height: 100%;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.similar-products-header {
+    text-align: center;
+    font-size: 28px;
+    line-height: 55px;
 }

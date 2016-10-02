@@ -1,13 +1,14 @@
 <?php
 namespace CatalogBundle\Service;
 
-use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\HttpFoundation\Response;
+use CatalogBundle\Entity\User;
+use Doctrine\ORM\EntityManager;
 
-class ProductSerializer
+class UserSerializer
 {
     private $em;
 
@@ -39,23 +40,18 @@ class ProductSerializer
 
         $normalizer->setCircularReferenceLimit(0);
         $normalizer->setIgnoredAttributes([
-            'creationTime',
-            'lastModification',
-            'similarProducts',
-            'image',
-            'parent',
-            'children',
-            'products',
-            'productDataToForm',
-            'similarProductsIdAndImage'
+            'password',
+            'salt',
+            'roles',
         ]);
+
 
         $serializer = new Serializer([$normalizer], [$encoder]);
 
-        $products = $this->em
-            ->getRepository('CatalogBundle:Product')
+        $users = $this->em
+            ->getRepository('CatalogBundle:User')
             ->getByPage($page, $per_page, $ordered_by, $direction);
-        $response = new Response($serializer->serialize($products, 'json'));
+        $response = new Response($serializer->serialize($users, 'json'));
         $response->headers->set('Content-Type', 'application/vnd.api+json');
 
         return $response;

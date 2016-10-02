@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "da08d8427821aafef28a004a59a4ea36",
-    "content-hash": "5c82f5f15561e739ca5aec96c1f2046d",
+    "hash": "1133a2b734aac50d9723b5b94026417b",
+    "content-hash": "2eab8d45dd2b52f18644f3590ff0a730",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1032,6 +1032,59 @@
                 "sql"
             ],
             "time": "2014-01-12 16:20:24"
+        },
+        {
+            "name": "kartik-v/bootstrap-fileinput",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
+                "reference": "d3f57f60ec1ddaf2e4fdc738255a20f3d083f018"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/d3f57f60ec1ddaf2e4fdc738255a20f3d083f018",
+                "reference": "d3f57f60ec1ddaf2e4fdc738255a20f3d083f018",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\fileinput\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An enhanced HTML 5 file input for Bootstrap 3.x with features for file preview for many file types, multiple selection, ajax uploads, and more.",
+            "homepage": "https://github.com/kartik-v/bootstrap-fileinput",
+            "keywords": [
+                "ajax",
+                "bootstrap",
+                "delete",
+                "file",
+                "image",
+                "input",
+                "jquery",
+                "multiple",
+                "preview",
+                "progress",
+                "upload"
+            ],
+            "time": "2016-09-24 18:15:28"
         },
         {
             "name": "knplabs/knp-components",
@@ -2664,7 +2717,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "gedmo/doctrine-extensions": 20
+        "gedmo/doctrine-extensions": 20,
+        "kartik-v/bootstrap-fileinput": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -1,5 +1,5 @@
 <?php
-namespace CatalogBundle\Controller\Api;
+namespace CatalogBundle\Controller\Api\Product;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Serializer;
 class ProductAPIController extends Controller
 {
     /**
+     * @param $request
      * @Security("has_role('ROLE_MODERATOR')")
      * @Route("/api/products", name="api_per_page")
      * @return Response

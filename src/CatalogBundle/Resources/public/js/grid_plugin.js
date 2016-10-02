@@ -12,13 +12,13 @@
         function setHeaders(header) {
             this.table.append('<thead>');
             var thead = $('table thead');
-            for(var pole in header){
-                if (pole == options.sortableColumn && options.direction == 1) {
-                    thead.append('<th class="active-filter">'+pole+'</th>');
-                } else if(pole == options.sortableColumn && options.direction == 0) {
-                    thead.append('<th class="active-filter-desc">'+pole+'</th>');
+            for(var field in header){
+                if (field == options.sortableColumn && options.direction == 1) {
+                    thead.append('<th class="active-filter">'+field+'</th>');
+                } else if(field == options.sortableColumn && options.direction == 0) {
+                    thead.append('<th class="active-filter-desc">'+field+'</th>');
                 } else {
-                    thead.append('<th>'+pole+'</th>');
+                    thead.append('<th>'+field+'</th>');
                 }
             }
             thead.append('<th class="disabled-header">Edit</th>');
@@ -33,9 +33,9 @@
             data.forEach(function (item, i) {
                 tbody.append('<tr id="titem'+item['id']+'">');
                 var tr = $('#titem'+item['id']+'');
-                for (var pole in item){
-                    if (pole != 'category') {
-                        tr.append('<td>' + (item[pole]+"").slice(0,20) + '</td>');
+                for (var field in item){
+                    if (field != 'category') {
+                        tr.append('<td>' + (item[field]+"").slice(0,20) + '</td>');
                     } else {
                         tr.append('<td>' + item['category']['title'] + '</td>');
                     }
@@ -43,10 +43,10 @@
 
                 tr.append('<td>' +
                     '<div class="btn-group" role="group" >' +
-                    '<a href="'+ options.rootURL + '/product/' + item['id'] + '"  id="view' + item['id'] +
+                    '<a href="'+ options.rootURL + options.bug + item['id'] + '"  id="view' + item['id'] +
                     '" class="btn btn-info view-btn" >' +
                     '<span class="glyphicon glyphicon-book" ></span></a>' +
-                    '<a href="' + options.rootURL + '/product/' + item['id'] + '/edit" id="edit' + item['id'] +
+                    '<a href="' + options.rootURL + options.bug + item['id'] + '/edit" id="edit' + item['id'] +
                     '" class="btn btn-primary edit-btn">' +
                     '<span class="glyphicon glyphicon-pencil"></span></a>' +
                     '<button id="remove' + item['id'] +
@@ -68,7 +68,7 @@
             $('#prev-btn').remove();
             $('#next-btn').remove();
             $.ajax({
-                url: 'http://localhost:8000/api/products'
+                url: options.apiURL
                 + '?page=' + options.page+'&per_page='+
                 options.itemsPerPage+'&ordered_by='+options.sortableColumn+'&direction='+
                 options.direction,
@@ -136,7 +136,7 @@
         
         function removeAjax(id) {
             $.ajax({
-                url: 'http://localhost:8000/product/' + id + '/remove',
+                url: options.rootURL + options.bug + + id + '/remove',
                 success: function (data) {
                     if (data == 1) {
                         $('#titem'+id).remove();
@@ -152,7 +152,7 @@
 
         function prettyRemoveHelper() {
             $.ajax({
-                url: 'http://localhost:8000/api/products/'
+                url: options.apiURL
                 +((options.page*options.itemsPerPage)) + '/'
                 + 1 + '/'+options.sortableColumn+'/' +
                 options.direction,
@@ -167,12 +167,3 @@
     }
 
 })(jQuery);
-
-
-$('#grid-table').gridPlugin({
-    rootURL: 'http://localhost:8000',
-    sortableColumn: 'id',
-    itemsPerPage: 5,
-    page: 1,
-    direction: 0
-});

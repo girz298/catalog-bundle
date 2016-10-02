@@ -10,6 +10,30 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
+
+    /**
+     * @param $request
+     * @param $id
+     * @Route(
+     *     "/category/all",
+     *     name="products_all"
+     * )
+     * @Security("has_role('ROLE_USER')")
+     * @Method({"GET"})
+     * @return Response
+     */
+    public function getAllProducts(Request $request)
+    {
+        $per_page = $request->get('per_page') ? $request->get('per_page') : 8;
+        $paginator = $this->get('knp_paginator');
+        $pagination = $this
+            ->get('app.category_paginator_generator')
+            ->getPaginator($request, $paginator, 'all', $per_page);
+
+        $htmlTree = $this->get('app.category_menu_generator')->getMenu();
+        return $this->render('test/test.html.twig', compact('htmlTree', 'id', 'pagination'));
+    }
+
     /**
      * @param $request
      * @param $id
@@ -24,11 +48,11 @@ class CategoryController extends Controller
      */
     public function getProductsByCategoryAction(Request $request, $id)
     {
+        $per_page = $request->get('per_page') ? $request->get('per_page') : 8;
         $paginator = $this->get('knp_paginator');
-
         $pagination = $this
             ->get('app.category_paginator_generator')
-            ->getPaginator($request, $paginator, $id);
+            ->getPaginator($request, $paginator, $id, $per_page);
 
         $htmlTree = $this->get('app.category_menu_generator')->getMenu();
         return $this->render('test/test.html.twig', compact('htmlTree', 'id', 'pagination'));

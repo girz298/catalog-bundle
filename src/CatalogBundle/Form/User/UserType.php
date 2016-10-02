@@ -1,17 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: doctor
- * Date: 08.09.16
- * Time: 19:24
- */
-
-namespace CatalogBundle\Form;
+namespace CatalogBundle\Form\User;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class SubmitProductType extends BasicProductType
+class UserType extends BasicUserType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

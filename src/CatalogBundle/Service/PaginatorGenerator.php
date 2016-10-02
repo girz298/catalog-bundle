@@ -13,8 +13,13 @@ class PaginatorGenerator
         $this->em = $em;
     }
 
-    public function getPaginator(Request $request, $paginator, $id)
+    public function getPaginator(Request $request, $paginator, $id, $per_page)
     {
+        if (!preg_match('/[0-9]{1,2}/', $per_page)) {
+            $per_page = 8;
+        }
+
+
         $query = $this->em
             ->createQueryBuilder()
             ->select('p')
@@ -22,10 +27,18 @@ class PaginatorGenerator
             ->where('p.category=' . $id)
             ->getQuery();
 
+        if ($id === 'all') {
+            $query = $this->em
+                ->createQueryBuilder()
+                ->select('p')
+                ->from('CatalogBundle:Product', 'p')
+                ->getQuery();
+        }
+
         $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1),
-            8
+            $per_page
         );
 
         return $pagination;

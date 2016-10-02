@@ -69,6 +69,16 @@ class User implements UserInterface
         // $this->salt = md5(uniqid(null, true));
     }
 
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     public function getUsername()
     {
         return $this->username;
@@ -93,16 +103,6 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**

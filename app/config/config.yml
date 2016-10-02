@@ -113,6 +113,25 @@ assetic:
             inputs:
                 - "%kernel.root_dir%/../vendor/components/jquery/jquery.js"
 
+        #Pretty FileInput
+
+        fileinput_css:
+            inputs:
+                - "%kernel.root_dir%/../vendor/kartik-v/bootstrap-fileinput/css/fileinput.min.css"
+
+        canvas_to_blob_plugin_js:
+            inputs:
+                - "%kernel.root_dir%/../vendor/kartik-v/bootstrap-fileinput/js/plugins/canvas-to-blob.min.js"
+        sortable_plugin_js:
+            inputs:
+                - "%kernel.root_dir%/../vendor/kartik-v/bootstrap-fileinput/js/plugins/sortable.min.js"
+        purify_plugin_js:
+            inputs:
+                - "%kernel.root_dir%/../vendor/kartik-v/bootstrap-fileinput/js/plugins/purify.min.js"
+        fileinput_js:
+            inputs:
+                - "%kernel.root_dir%/../vendor/kartik-v/bootstrap-fileinput/js/fileinput.min.js"
+
 #KNPPatinationBundle
 knp_paginator:
     page_range: 2

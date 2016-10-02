@@ -13,11 +13,50 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use CatalogBundle\Form\UserType;
+use CatalogBundle\Form\User\UserType;
 use CatalogBundle\Entity\User;
 
 class UserController extends Controller
 {
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/user/crud", name="user_crud")
+     * @Method({"GET"})
+     */
+    public function gridProducts()
+    {
+        return $this->render('moderator/user_crud.html.twig');
+    }
+
+
+
+    /**
+     * @param Get
+     * @Security("has_role('ROLE_MODERATOR')")
+     * @Route(
+     *     "/user/{id}/remove",
+     *     requirements={"id" = "[0-9]{1,3}"},
+     *     name="user_remove"
+     * )
+     * @Method({"GET"})
+     * @return Response
+     */
+    public function removeProduct($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $prodRepo = $em->getRepository('CatalogBundle:User');
+        $product = $prodRepo->findOneById($id);
+        if ($product === null) {
+            return new Response('0');
+        } else {
+            $em->remove($product);
+            $em->flush();
+            return new Response('1');
+        }
+    }
+
+
     /**
      * @Route("/", name="index")
      * @Method({"GET"})
@@ -25,6 +64,10 @@ class UserController extends Controller
      */
     public function indexAction()
     {
+        $tokenStorage = $this->get('security.token_storage');
+        if ($tokenStorage->getToken()->isAuthenticated()) {
+            return $this->redirectToRoute('products_by_category', ['id' => '39']);
+        }
         return $this->render('anon/index.html.twig');
     }
 

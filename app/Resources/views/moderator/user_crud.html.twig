@@ -9,15 +9,6 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <a href="{{ path('product_create') }}" class="btn btn-lg btn-success btn-block" style="margin-bottom: 15px">
-                    Add Product
-                </a>
-            </div>
-            <div class="col-md-4"></div>
-        </div>
-        <div class="row">
             <div id="grid-table"></div>
         </div>
     </div>
@@ -27,11 +18,11 @@
     {#<script src="{{ asset('bundles/catalog/js/grid_plugin.js') }}"></script>#}
     <script>
         $('#grid-table').gridPlugin({
-            bug: '/product/',
+            bug: '/user/',
             rootURL: 'http://localhost:8000',
-            apiURL: 'http://localhost:8000/api/products',
+            apiURL: 'http://localhost:8000/api/users',
             sortableColumn: 'id',
-            itemsPerPage: 7,
+            itemsPerPage: 5,
             page: 1,
             direction: 0
         });

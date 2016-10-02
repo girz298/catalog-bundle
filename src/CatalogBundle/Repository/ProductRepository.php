@@ -16,7 +16,6 @@ class ProductRepository extends EntityRepository
 {
     public function getByPage($page, $per_page, $ordered_by, $direction)
     {
-        $directionDQL = 'ASC';
         if ($direction) {
             $directionDQL = 'ASC';
         } else {
@@ -63,7 +62,28 @@ class ProductRepository extends EntityRepository
         $now = new\DateTime('now');
         $first_good = new Product();
         $first_good->setName($form->get('name')->getData());
-        $first_good->setStateFlag(true);
+        $first_good->setStateFlag($form->get('state_flag')->getData());
+        if (!is_null($form->get('first_similar_product_id')) &&
+            !is_null($this->findOneById($form->get('first_similar_product_id')->getData()))
+        ) {
+            $first_good->addSimilarProduct(
+                $this->findOneById($form->get('first_similar_product_id')->getData())
+            );
+        }
+        if (!is_null($form->get('second_similar_product_id')) &&
+            !is_null($this->findOneById($form->get('second_similar_product_id')->getData()))
+            ) {
+            $first_good->addSimilarProduct(
+                $this->findOneById($form->get('second_similar_product_id')->getData())
+            );
+        }
+        if (!is_null($form->get('third_similar_product_id')) &&
+            !is_null($this->findOneById($form->get('third_similar_product_id')->getData()))
+        ) {
+            $first_good->addSimilarProduct(
+                $this->findOneById($form->get('third_similar_product_id')->getData())
+            );
+        }
         $first_good->setCategory(
             $this->_em
                 ->getRepository('CatalogBundle:Category')
@@ -75,6 +95,56 @@ class ProductRepository extends EntityRepository
         $first_good->setCreationTime($now);
         $first_good->setLastModification($now);
         $first_good->setImage($fileName);
+        $this->_em->persist($first_good);
+        $this->_em->flush();
+    }
+
+    public function updateDataFromForm(Form $form, Product $first_good)
+    {
+        if (!is_null($form->get('image')->getData())) {
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+            $file = $form->get('image')->getData();
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move(
+                'uploads/images',
+                $fileName
+            );
+            $first_good->setImage($fileName);
+        }
+        $now = new\DateTime('now');
+        $first_good->setName($form->get('name')->getData());
+        $first_good->setStateFlag($form->get('state_flag')->getData());
+        $first_good->removeAllSimilarProducts();
+        if (!is_null($form->get('first_similar_product_id')) &&
+            !is_null($this->findOneById($form->get('first_similar_product_id')->getData()))
+        ) {
+            $first_good->addSimilarProduct(
+                $this->findOneById($form->get('first_similar_product_id')->getData())
+            );
+        }
+        if (!is_null($form->get('second_similar_product_id')) &&
+            !is_null($this->findOneById($form->get('second_similar_product_id')->getData()))
+        ) {
+            $first_good->addSimilarProduct(
+                $this->findOneById($form->get('second_similar_product_id')->getData())
+            );
+        }
+        if (!is_null($form->get('third_similar_product_id')) &&
+            !is_null($this->findOneById($form->get('third_similar_product_id')->getData()))
+        ) {
+            $first_good->addSimilarProduct(
+                $this->findOneById($form->get('third_similar_product_id')->getData())
+            );
+        }
+        $first_good->setCategory(
+            $this->_em
+                ->getRepository('CatalogBundle:Category')
+                ->findOneById($form->get('category')->getData())
+        );
+
+        $first_good->setDescription($form->get('description')->getData());
+        $first_good->setSku($form->get('sku')->getData());
+        $first_good->setLastModification($now);
         $this->_em->persist($first_good);
         $this->_em->flush();
     }

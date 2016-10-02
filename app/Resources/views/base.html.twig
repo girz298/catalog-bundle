@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
 
-    {% stylesheets '@bootstrap_css_map' '@bootstrap_css' %}
+    {% stylesheets '@bootstrap_css_map' '@bootstrap_css' '@fileinput_css' %}
     <link rel="stylesheet" type="text/css" media="screen" href="{{ asset_url }}"/>
     {% endstylesheets %}
 
@@ -17,8 +17,12 @@
 {% block body %}
 {% endblock %}
 
-{% javascripts '@jquery' '@bootstrap_js' %}
+{% javascripts '@jquery' '@bootstrap_js'
+'@canvas_to_blob_plugin_js' '@sortable_plugin_js'
+'@purify_plugin_js' '@fileinput_js'
+%}
 <script type="text/javascript" src="{{ asset_url }}"></script>
+<script src="{{ asset('bundles/catalog/js/grid_plugin.js') }}"></script>
 {% endjavascripts %}
 {% block javascripts %}{% endblock %}
 </body>

@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use CatalogBundle\Form\SubmitProductType;
+use CatalogBundle\Form\Product\SubmitProductType;
 use CatalogBundle\Entity\Product;
 
 class ProductController extends Controller
@@ -35,20 +35,7 @@ class ProductController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            $now = new\DateTime('now');
-            $editable_product->setName($form->get('name')->getData());
-            $editable_product->setStateFlag($form->get('state_flag')->getData());
-            $editable_product->setCategory(
-                $em
-                    ->getRepository('CatalogBundle:Category')
-                    ->findOneById($form->get('category')->getData())
-            );
-            $editable_product->setDescription($form->get('description')->getData());
-            $editable_product->setSku($form->get('sku')->getData());
-            $editable_product->setLastModification($now);
-            $em->persist($editable_product);
-            $em->flush();
-
+            $em->getRepository('CatalogBundle:Product')->updateDataFromForm($form, $editable_product);
             return $this->redirectToRoute('product_crud');
         }
 
@@ -131,6 +118,6 @@ class ProductController extends Controller
         $repo = $em->getRepository('CatalogBundle:Product');
         $product = $repo->findOneById($id);
         $htmlTree = $this->get('app.category_menu_generator')->getMenu();
-        return $this->render('test/test.html.twig', compact('htmlTree', 'product'));
+        return $this->render('product/single_product.html.twig', compact('htmlTree', 'product'));
     }
 }

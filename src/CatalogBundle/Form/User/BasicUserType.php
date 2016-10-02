@@ -1,7 +1,5 @@
 <?php
-
-namespace CatalogBundle\Form;
-
+namespace CatalogBundle\Form\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

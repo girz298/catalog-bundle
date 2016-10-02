@@ -337,6 +337,14 @@ class Product
     }
 
     /**
+     * Remove removeAllSimilarProducts
+     */
+    public function removeAllSimilarProducts()
+    {
+        $this->similar_products = [];
+    }
+
+    /**
      * Get similarProducts
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -346,13 +354,48 @@ class Product
         return $this->similar_products;
     }
 
+    public function getSimilarProductsIdAndImage()
+    {
+//        isset($this->similar_products[0]) &&
+        $result = [];
+        if (isset($this->similar_products[0]) && !empty($this->similar_products)) {
+            foreach ($this->similar_products as $similar_product) {
+                $result[] = [
+                    'id' => $similar_product->getId(),
+                    'image' => $similar_product->getImage()
+                ];
+            }
+            return $result;
+        }
+        return '';
+    }
+
+    public function getSimilarProductsId()
+    {
+        $result = [];
+        if (isset($this->similar_products[0]) && !empty($this->similar_products)) {
+            foreach ($this->similar_products as $similar_product) {
+                $result[] = $similar_product->getId();
+            }
+            return $result;
+        }
+        return '';
+    }
+
     public function getProductDataToForm()
     {
+        $similarProductsId = $this->getSimilarProductsIdAndImage();
         return [
             'name' => $this->getName(),
             'sku' => $this->getSku(),
             'description' => $this->getDescription(),
             'state_flag' => $this->getStateFlag(),
+            'first_similar_product_id' => ($similarProductsId!=''
+                && isset($similarProductsId[0])) ? $similarProductsId[0]['id'] : null,
+            'second_similar_product_id' => ($similarProductsId!=''
+                && isset($similarProductsId[1])) ? $similarProductsId[1]['id'] : null,
+            'third_similar_product_id' => ($similarProductsId!=''
+                && isset($similarProductsId[2])) ? $similarProductsId[2]['id'] : null,
         ];
     }
 }

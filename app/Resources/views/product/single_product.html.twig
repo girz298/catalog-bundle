@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/catalog/css/menu/menu.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/catalog/css/main/main.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="testclass">
+        <div id='cssmenu'>
+            {{ htmlTree | raw }}
+        </div>
+    </div>
+
+    <div class="testclass2">
+        {% include 'templates/navbar.html.twig' %}
+        {#{% if product is defined %}#}
+        {#{{ product.id }}#}
+        {#{{ product.name }}#}
+        {#<img src="{{ relative_path('/uploads/images/') }}{{ product.image }}" alt="">#}
+        {#{{ product.sku }}#}
+        {#{{ product.stateFlag }}#}
+        {#{{ product.creationTime | date }}#}
+        {#<p>{{ product.description }}</p>#}
+        {#{% if product.similarProductsId %}#}
+        {#{% for similarProduct in product.similarProductsId %}#}
+        {#<a href="{{ path('product_by_id',{'id':similarProduct}) }}"><h1>{{ similarProduct }}</h1></a>#}
+        {#{% endfor %}#}
+        {#{% else %}#}
+        {#<h1> Similar products not found </h1>#}
+        {#{% endif %}#}
+        {#{% endif %}#}
+
+        <div class="container" style="height: 100%; width: 100%;">
+            <div class="row" style="height: 50%; border:solid 4px #009090; border-radius:8px;color:black;overflow: hidden;">
+                <div class="col-md-4" style="height: 100%">
+                    <img src="{{ relative_path('/uploads/images/') }}{{ product.image }}"
+                         class="thumbnail" height="100%" width="100%" alt="">
+                </div>
+                <div class="col-md-8" style="height: 100%">
+                    <div class="row" style="height: 5%">
+                        <div class="col-md-12"><h4>Added: {{ product.creationTime | date  }}</h4></div>
+                    </div>
+                    <div class="row" style="height: 5%">
+                        <div class="col-md-3"><h4>Out of stock: {{ product.stateFlag }}</h4>  </div>
+                    </div>
+                    <div class="row" style="height: 10%">
+                        <div class="col-md-12"><h3>{{ product.name }}</h3></div>
+                    </div>
+                    <div class="row" style="height: 20%">
+                        <div class="col-md-12"><h4>{{ product.description }}</h4></div>
+                    </div>
+                </div>
+            </div>
+
+            {% if product.similarProductsId %}
+            <div class="row" style="height: 50%;padding-bottom: 40px">
+                <div class="row" style="height: 20%;">
+                    <div class="col-md-12 similar-products-header">
+                        Similar products
+                    </div>
+                </div>
+
+                <div class="row" style="height: 80%;">
+
+                    {% for similarProduct in product.similarProductsIdAndImage %}
+                        <div class="col-md-4 similar-products">
+                            <a href="{{ path('product_by_id',{'id':similarProduct.id}) }}">
+                                <img src="{{ relative_path('/uploads/images/') }}{{ similarProduct.image }}"
+                                     class="thumbnail" height="100%" width="100%" alt="">
+                            </a>
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+                    <div class="col-md-12 similar-products-header">
+                        Similar products not found
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/catalog/js/menu/menu.js') }}"></script>
+{% endblock %}
