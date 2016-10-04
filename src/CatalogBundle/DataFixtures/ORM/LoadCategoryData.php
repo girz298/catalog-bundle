@@ -15,7 +15,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
         $electron->setStateFlag(true);
         $manager->persist($electron);
 
-        $electron_childs = [
+        $electron_children = [
             'Телефония и связь',
             'Планшеты, электронные книги',
             'Телевидение и видео',
@@ -28,7 +28,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
             'Гаджеты'
         ];
 
-        foreach ($electron_childs as $child_name) {
+        foreach ($electron_children as $child_name) {
             $child = new Category();
             $child->setTitle($child_name);
             $child->setStateFlag(true);
@@ -48,7 +48,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
         $computers->setStateFlag(true);
         $manager->persist($computers);
 
-        $computers_childs = [
+        $computers_children = [
             'Ноутбуки',
             'Компьютеры и комплектующие',
             'Периферия',
@@ -57,7 +57,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
             'Программное обеспечение'
         ];
 
-        foreach ($computers_childs as $child_name) {
+        foreach ($computers_children as $child_name) {
             $child = new Category();
             $child->setTitle($child_name);
             $child->setStateFlag(true);
@@ -70,7 +70,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
         $appliances->setStateFlag(true);
         $manager->persist($appliances);
 
-        $appliances_childs = [
+        $appliances_children = [
             'Крупногабаритная техника',
             'Встраиваемая техника',
             'Уборка, уход за одеждой, пошив',
@@ -83,7 +83,7 @@ class LoadCategoryData extends AbstractFixture implements OrderedFixtureInterfac
             'Прочее'
         ];
 
-        foreach ($appliances_childs as $child_name) {
+        foreach ($appliances_children as $child_name) {
             $child = new Category();
             $child->setTitle($child_name);
             $child->setStateFlag(true);

@@ -7,6 +7,9 @@
  */
 namespace CatalogBundle\Controller;
 
+use CatalogBundle\Entity\ForgivePassword;
+use CatalogBundle\Form\User\ForgivePasswordType;
+use CatalogBundle\Form\User\ResetPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -153,5 +156,114 @@ class UserController extends Controller
         return $this->render('moderator/add_product.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+
+    /**
+     * @Security("has_role('ROLE_MODERATOR')")
+     * @Route(
+     *     "/umail_test",
+     *     name="mail_test"
+     * )
+     * @Method({"GET","POST"})
+     * @return Response
+     */
+    public function testAction()
+    {
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Hello Email')
+            ->setFrom('test298298@gmail.com')
+            ->setTo('girz298@gmail.com')
+            ->setBody('TEST TEST TEST');
+        $this->get('mailer')->send($message);
+
+        return $this->render('anon/index.html.twig');
+    }
+
+    /**
+     * @param $request
+     * @Route(
+     *     "/forgivepassword",
+     *     name="forgive_password"
+     * )
+     * @Method({"GET","POST"})
+     * @return Response
+     */
+    public function forgivePasswordAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userRepo = $em->getRepository('CatalogBundle:User');
+        $form = $this->createForm(ForgivePasswordType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $email = $form->get('email')->getData();
+            $user = $userRepo->findOneByEmail($email);
+            if (!is_null($user)) {
+                $forgivePassword = new ForgivePassword();
+                $forgivePassword->setEmail($email);
+                $hash = md5(uniqid(null, true));
+                $forgivePassword->setHashedKey($hash);
+
+                $message = \Swift_Message::newInstance()
+                    ->setSubject('Hello Email')
+                    ->setFrom('test298298@gmail.com')
+                    ->setTo('girz298@gmail.com')
+                    ->setBody('To reset you password please 
+                    follow this link http://catalog.com/resetpassword/' . $hash);
+                $this->get('mailer')->send($message);
+                $em->persist($forgivePassword);
+                $em->flush();
+                $this->addFlash('notice', 'Email with instructions was send to you email!');
+                return $this->redirectToRoute('login');
+            } else {
+                $this->addFlash('notice', 'User with that email not found!');
+                return $this->redirectToRoute('forgive_password');
+            }
+        }
+        return $this->render('anon/forgive_password.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @param $request
+     * @param $hash
+     * @Route(
+     *     "/resetpassword/{hash}",
+     *     name="reset_password"
+     * )
+     * @Method({"GET","POST"})
+     * @return Response
+     */
+    public function returnPasswordAction(Request $request, $hash)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userRepo = $em->getRepository('CatalogBundle:User');
+        $forgivRepo = $em->getRepository('CatalogBundle:ForgivePassword');
+
+        $forgiver = $forgivRepo->findOneByHashedKey($hash);
+        if (!is_null($forgiver)) {
+            $form = $this->createForm(ResetPasswordType::class);
+            $form->handleRequest($request);
+            if ($form->isSubmitted()) {
+                $user = $userRepo->findOneByEmail($forgiver->getEmail());
+                $encoder = $this->get('security.password_encoder');
+                $user->setPassword($encoder->encodePassword(
+                    $user,
+                    $form->get('new_password')->getData()
+                ));
+                $em->remove($forgiver);
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash('notice', 'You are successfully reset your password');
+                return $this->redirectToRoute('login');
+            }
+            return $this->render('anon/forgive_password.html.twig', [
+                'form' => $form->createView()
+            ]);
+        } else {
+            return $this->redirectToRoute('index');
+        }
     }
 }
