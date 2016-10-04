@@ -54,42 +54,42 @@ class ProductRepository extends EntityRepository
         );
 
         $now = new\DateTime('now');
-        $product = new Product();
-        $product->setName($form->get('name')->getData());
-        $product->setStateFlag($form->get('state_flag')->getData());
+        $created_product = new Product();
+        $created_product->setName($form->get('name')->getData());
+        $created_product->setStateFlag($form->get('state_flag')->getData());
         if (!is_null($form->get('first_similar_product_id')) &&
             !is_null($this->findOneById($form->get('first_similar_product_id')->getData()))
         ) {
             $product = $this->findOneById($form->get('first_similar_product_id')->getData());
-            $product->addSimilarProduct($product);
-            $product->addSimilarProduct($product);
+            $created_product->addSimilarProduct($product);
+            $product->addSimilarProduct($created_product);
         }
         if (!is_null($form->get('second_similar_product_id')) &&
             !is_null($this->findOneById($form->get('second_similar_product_id')->getData()))
             ) {
             $product = $this->findOneById($form->get('second_similar_product_id')->getData());
-            $product->addSimilarProduct($product);
-            $product->addSimilarProduct($product);
+            $created_product->addSimilarProduct($product);
+            $product->addSimilarProduct($created_product);
         }
         if (!is_null($form->get('third_similar_product_id')) &&
             !is_null($this->findOneById($form->get('third_similar_product_id')->getData()))
         ) {
             $product = $this->findOneById($form->get('third_similar_product_id')->getData());
-            $product->addSimilarProduct($product);
-            $product->addSimilarProduct($product);
+            $created_product->addSimilarProduct($product);
+            $product->addSimilarProduct($created_product);
         }
-        $product->setCategory(
+        $created_product->setCategory(
             $this->_em
                 ->getRepository('CatalogBundle:Category')
                 ->findOneById($form->get('category')->getData())
         );
 
-        $product->setDescription($form->get('description')->getData());
-        $product->setSku($form->get('sku')->getData());
-        $product->setCreationTime($now);
-        $product->setLastModification($now);
-        $product->setImage($fileName);
-        $this->_em->persist($product);
+        $created_product->setDescription($form->get('description')->getData());
+        $created_product->setSku($form->get('sku')->getData());
+        $created_product->setCreationTime($now);
+        $created_product->setLastModification($now);
+        $created_product->setImage($fileName);
+        $this->_em->persist($created_product);
         $this->_em->flush();
     }
 
