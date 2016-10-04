@@ -3,6 +3,9 @@ namespace CatalogBundle\Repository;
 
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Doctrine\ORM\EntityRepository;
+use CatalogBundle\Entity\User;
+
+use Symfony\Component\Form\Form;
 
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
@@ -34,5 +37,15 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
 
         return $users;
+    }
+
+
+    public function updateDataFromForm(Form $form, User $editable_user)
+    {
+        $editable_user->setEmail($form->get('email')->getData());
+        $editable_user->setIsActive($form->get('is_active')->getData());
+        $editable_user->setRole($form->get('role')->getData());
+        $this->_em->persist($editable_user);
+        $this->_em->flush();
     }
 }

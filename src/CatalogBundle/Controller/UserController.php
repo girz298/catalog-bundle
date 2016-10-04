@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use CatalogBundle\Form\User\EditUserType;
 use CatalogBundle\Form\User\UserType;
 use CatalogBundle\Entity\User;
 
@@ -42,15 +43,15 @@ class UserController extends Controller
      * @Method({"GET"})
      * @return Response
      */
-    public function removeProduct($id)
+    public function removeUser($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $prodRepo = $em->getRepository('CatalogBundle:User');
-        $product = $prodRepo->findOneById($id);
-        if ($product === null) {
+        $userRepo = $em->getRepository('CatalogBundle:User');
+        $user = $userRepo->findOneById($id);
+        if ($user === null) {
             return new Response('0');
         } else {
-            $em->remove($product);
+            $em->remove($user);
             $em->flush();
             return new Response('1');
         }
@@ -64,10 +65,8 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-        $tokenStorage = $this->get('security.token_storage');
-        if ($tokenStorage->getToken()->isAuthenticated()) {
-            return $this->redirectToRoute('products_by_category', ['id' => '39']);
-        }
+
+
         return $this->render('anon/index.html.twig');
     }
 
@@ -79,6 +78,10 @@ class UserController extends Controller
      */
     public function loginAction()
     {
+//        $tokenStorage = $this->get('security.token_storage');
+//        if ($tokenStorage->getToken()->isAuthenticated()) {
+//            return $this->redirectToRoute('products_by_category', ['id' => '39']);
+//        }
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -99,6 +102,10 @@ class UserController extends Controller
      */
     public function registerAction(Request $request)
     {
+//        $tokenStorage = $this->get('security.token_storage');
+//        if ($tokenStorage->getToken()->isAuthenticated()) {
+//            return $this->redirectToRoute('products_by_category', ['id' => '39']);
+//        }
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $em = $this->getDoctrine()->getManager();
@@ -107,6 +114,8 @@ class UserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+            $user->setIsActive(true);
+            $user->setRole('ROLE_USER');
             $em->persist($user);
             $em->flush();
             return $this->redirectToRoute('login');
@@ -114,6 +123,38 @@ class UserController extends Controller
         }
 
         return $this->render('anon/register.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @param $request
+     * @param $id
+     * @Security("has_role('ROLE_MODERATOR')")
+     * @Route(
+     *     "/user/{id}/edit",
+     *     requirements={"id" = "[0-9]+"},
+     *     name="user_edit"
+     * )
+     * @Method({"GET","POST"})
+     * @return Response
+     */
+    public function editProduct(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $editable_user = $em
+            ->getRepository('CatalogBundle:User')
+            ->findOneById($id);
+        $form = $this->createForm(EditUserType::class);
+        $form->setData($editable_user->getUserDataToForm());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $em->getRepository('CatalogBundle:User')->updateDataFromForm($form, $editable_user);
+            return $this->redirectToRoute('user_crud');
+        }
+
+        return $this->render('moderator/add_product.html.twig', [
             'form' => $form->createView(),
         ]);
     }

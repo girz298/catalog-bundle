@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand brand-decor" href="{{ path('products_all') }}">BlueFire</a>
+            <a class="navbar-brand brand-decor" href="{{ path('products_all') }}">Blue"S"</a>
         </div>
         <div class="collapse navbar-collapse"
              id="bs-example-navbar-collapse-1">
@@ -22,6 +22,7 @@
                             {% if is_granted('ROLE_MODERATOR') %}
                                 <li role="separator" class="divider"></li>
                                 <li><a href="{{ path('product_crud') }}">Product CRUD</a></li>
+                                <li><a href="{{ path('category_crud') }}">Category CRUD</a></li>
                             {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li role="separator" class="divider"></li>

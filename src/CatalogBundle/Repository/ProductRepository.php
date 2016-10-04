@@ -66,23 +66,23 @@ class ProductRepository extends EntityRepository
         if (!is_null($form->get('first_similar_product_id')) &&
             !is_null($this->findOneById($form->get('first_similar_product_id')->getData()))
         ) {
-            $first_good->addSimilarProduct(
-                $this->findOneById($form->get('first_similar_product_id')->getData())
-            );
+            $product = $this->findOneById($form->get('first_similar_product_id')->getData());
+            $first_good->addSimilarProduct($product);
+            $product->addSimilarProduct($first_good);
         }
         if (!is_null($form->get('second_similar_product_id')) &&
             !is_null($this->findOneById($form->get('second_similar_product_id')->getData()))
             ) {
-            $first_good->addSimilarProduct(
-                $this->findOneById($form->get('second_similar_product_id')->getData())
-            );
+            $product = $this->findOneById($form->get('second_similar_product_id')->getData());
+            $first_good->addSimilarProduct($product);
+            $product->addSimilarProduct($first_good);
         }
         if (!is_null($form->get('third_similar_product_id')) &&
             !is_null($this->findOneById($form->get('third_similar_product_id')->getData()))
         ) {
-            $first_good->addSimilarProduct(
-                $this->findOneById($form->get('third_similar_product_id')->getData())
-            );
+            $product = $this->findOneById($form->get('third_similar_product_id')->getData());
+            $first_good->addSimilarProduct($product);
+            $product->addSimilarProduct($first_good);
         }
         $first_good->setCategory(
             $this->_em

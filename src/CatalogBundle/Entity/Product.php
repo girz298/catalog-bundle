@@ -390,6 +390,7 @@ class Product
             'sku' => $this->getSku(),
             'description' => $this->getDescription(),
             'state_flag' => $this->getStateFlag(),
+            'category' => $this->getCategory()->getId(),
             'first_similar_product_id' => ($similarProductsId!=''
                 && isset($similarProductsId[0])) ? $similarProductsId[0]['id'] : null,
             'second_similar_product_id' => ($similarProductsId!=''

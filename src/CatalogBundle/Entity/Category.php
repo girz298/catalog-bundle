@@ -5,7 +5,6 @@ namespace CatalogBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @Gedmo\Tree(type="nested")
@@ -27,14 +26,12 @@ class Category
 
     /**
      * @ORM\Column(length=64, type="string", unique=true)
-     * @Groups({"group1"})
      */
     private $title;
 
 
     /**
      * @ORM\Column(name="state_flag", type="boolean")
-     * @Groups({"group2"})
      */
     private $state_flag;
 
@@ -301,5 +298,19 @@ class Category
     public function getProducts()
     {
         return $this->products;
+    }
+
+    public function getDataToForm()
+    {
+        if (is_null($this->getParent())) {
+            $parentId = null;
+        } else {
+            $parentId = $this->getParent()->getId();
+        }
+
+        return [
+            'title' => $this->getTitle(),
+            'parent_category' => $parentId,
+        ];
     }
 }

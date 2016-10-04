@@ -43,6 +43,7 @@ class UserSerializer
             'password',
             'salt',
             'roles',
+            'userDataToForm'
         ]);
 
 

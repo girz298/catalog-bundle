@@ -10,6 +10,8 @@ class UserType extends BasicUserType
     {
         parent::buildForm($builder, $options);
         $builder
+            ->remove('role')
+            ->remove('is_active')
             ->add('save', SubmitType::class, [
                 'label' => 'Submit',
                 'attr' => [

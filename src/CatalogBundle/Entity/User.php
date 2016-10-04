@@ -48,10 +48,11 @@ class User implements UserInterface
      */
     private $role;
 
+
+    // *     checkMX = true
     /**
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
      * )
      * @ORM\Column(type="string", length=60, unique=true)
      */
@@ -204,4 +205,14 @@ class User implements UserInterface
     {
         return $this->role;
     }
+
+    public function getUserDataToForm()
+    {
+        return [
+            'username' => $this->getUsername(),
+            'email' => $this->getEmail(),
+            'role' => $this->getRole()
+        ];
+    }
+
 }

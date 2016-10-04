@@ -134,7 +134,7 @@ assetic:
 
 #KNPPatinationBundle
 knp_paginator:
-    page_range: 2
+    page_range: 4
     default_options:
         page_name: page
         sort_field_name: sort
