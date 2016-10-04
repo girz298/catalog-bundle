@@ -88,14 +88,12 @@ class CategoryController extends Controller
             }
         );
         $htmlTree = $repo->childrenHierarchy(
-            null, /* starting from root nodes */
-            false, /* false: load all children, true: only direct */
+            null,
+            false,
             $options
         );
-
         return $this->render('category/category_crud.html.twig', compact('htmlTree'));
     }
-
 
     /**
      * @param Post
@@ -112,7 +110,6 @@ class CategoryController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $categoryRepo = $em->getRepository('CatalogBundle:Category');
-//        $categoryRepo->removeFromTree($categoryRepo->findOneById($id));
         $em->remove($categoryRepo->findOneById($id));
         $em->flush();
         return $this->redirectToRoute('category_crud');

@@ -19,7 +19,6 @@ class PaginatorGenerator
             $per_page = 8;
         }
 
-
         $query = $this->em
             ->createQueryBuilder()
             ->select('p')

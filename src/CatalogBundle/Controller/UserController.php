@@ -37,7 +37,7 @@ class UserController extends Controller
      * @Security("has_role('ROLE_MODERATOR')")
      * @Route(
      *     "/user/{id}/remove",
-     *     requirements={"id" = "[0-9]{1,3}"},
+     *     requirements={"id" = "[0-9]+"},
      *     name="user_remove"
      * )
      * @Method({"GET"})
@@ -65,8 +65,6 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-
-
         return $this->render('anon/index.html.twig');
     }
 
@@ -78,10 +76,6 @@ class UserController extends Controller
      */
     public function loginAction()
     {
-//        $tokenStorage = $this->get('security.token_storage');
-//        if ($tokenStorage->getToken()->isAuthenticated()) {
-//            return $this->redirectToRoute('products_by_category', ['id' => '39']);
-//        }
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -102,10 +96,6 @@ class UserController extends Controller
      */
     public function registerAction(Request $request)
     {
-//        $tokenStorage = $this->get('security.token_storage');
-//        if ($tokenStorage->getToken()->isAuthenticated()) {
-//            return $this->redirectToRoute('products_by_category', ['id' => '39']);
-//        }
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $em = $this->getDoctrine()->getManager();

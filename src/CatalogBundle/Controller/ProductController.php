@@ -24,7 +24,7 @@ class ProductController extends Controller
      * @Method({"GET","POST"})
      * @return Response
      */
-    public function editProduct(Request $request, $id)
+    public function editProductAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $editable_product = $em
@@ -49,7 +49,7 @@ class ProductController extends Controller
      * @Route("/product/crud", name="product_crud")
      * @Method({"GET"})
      */
-    public function gridProducts()
+    public function gridProductsAction()
     {
         return $this->render('moderator/product_crud.html.twig');
     }
@@ -61,7 +61,7 @@ class ProductController extends Controller
      * @Method({"GET","POST"})
      * @return Response
      */
-    public function createProduct(Request $request)
+    public function createProductAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $form = $this->createForm(SubmitProductType::class);
@@ -82,13 +82,13 @@ class ProductController extends Controller
      * @Security("has_role('ROLE_MODERATOR')")
      * @Route(
      *     "/product/{id}/remove",
-     *     requirements={"id" = "[0-9]{1,3}"},
+     *     requirements={"id" = "[0-9]+"},
      *     name="product_remove"
      * )
      * @Method({"GET","POST"})
      * @return Response
      */
-    public function removeProduct($id)
+    public function removeProductAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $prodRepo = $em->getRepository('CatalogBundle:Product');
@@ -106,6 +106,7 @@ class ProductController extends Controller
      * @param $id
      * @Route(
      *     "/product/{id}",
+     *     requirements={"id" = "[0-9]+"},
      *     name="product_by_id"
      * )
      * @Security("has_role('ROLE_USER')")
