@@ -103,7 +103,13 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
+//            $user = $form->getData();
+            $user->setUsername($form->get('username')->getData());
+            $encoder = $this->get('security.password_encoder');
+            $user->setPassword($encoder->encodePassword(
+                $user,
+                $form->get('password')->getData()
+            ));
             $user->setIsActive(true);
             $user->setRole('ROLE_USER');
             $em->persist($user);

@@ -11,7 +11,8 @@ security:
 
     encoders:
         CatalogBundle\Entity\User:
-            algorithm: plaintext
+            algorithm: bcrypt
+            cost: 12
 
     role_hierarchy:
         ROLE_USER: IS_AUTHENTICATED_ANONYMOUSLY
