@@ -5,8 +5,7 @@
 * Деликатор Виктория
 
 
-**Простой запуск: php bin/console server:run**
-
-**Не забываем composer install для подхвата зависимостей**
-
-**Чтобы все заработало нужно будет сделать symlink на app/Resources/public в папке web/bundles**
+**Простой запуск:**
+* composer install
+* php bin/console catalog:build
+* php bin/console server:run либо сразу на Apache 

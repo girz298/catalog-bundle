@@ -1,0 +1,47 @@
+#grid-table {
+}
+
+th {
+    text-align: center;
+    font-size: 16px;
+    -webkit-user-select: none;
+    border: solid 2px transparent;
+}
+
+th:hover {
+    -webkit-user-select: none;
+    border-left: solid 2px black;
+    border-right: solid 2px black;
+    cursor: pointer;
+    background-color: #F9F9F9;
+    text-align: center;
+}
+
+table {
+    padding-top: 2px;
+    text-align: center;
+}
+
+.active-filter {
+    border-top: solid 2px black;
+    background-color: #F9F9F9;
+}
+
+.active-filter-desc {
+    border-bottom: solid 2px black;
+    background-color: #F9F9F9;
+}
+
+#prev-btn {
+    margin-right: 10px;
+}
+
+.edit-btn {
+}
+
+.disabled-header:hover {
+    text-align: center;
+    font-size: 16px;
+    -webkit-user-select: none;
+    border: solid 2px transparent;
+}

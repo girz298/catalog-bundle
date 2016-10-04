@@ -1,1 +1,169 @@
-console.log("TEST");
+(function ($) {
+
+    $.fn.gridPlugin = function (options) {
+        var that = this;
+
+        function setTable() {
+            that.append('<table></table>');
+            this.table = $('table');
+            this.table.addClass('table table-striped');
+        }
+
+        function setHeaders(header) {
+            this.table.append('<thead>');
+            var thead = $('table thead');
+            for(var field in header){
+                if (field == options.sortableColumn && options.direction == 1) {
+                    thead.append('<th class="active-filter">'+field+'</th>');
+                } else if(field == options.sortableColumn && options.direction == 0) {
+                    thead.append('<th class="active-filter-desc">'+field+'</th>');
+                } else {
+                    thead.append('<th>'+field+'</th>');
+                }
+            }
+            thead.append('<th class="disabled-header">Edit</th>');
+            this.table.append('</thead>');
+        }
+
+        function setBody(data, from) {
+            if (!from) {
+                this.table.append('<tbody>');
+            }
+            var tbody = $('table tbody');
+            data.forEach(function (item, i) {
+                tbody.append('<tr id="titem'+item['id']+'">');
+                var tr = $('#titem'+item['id']+'');
+                for (var field in item){
+                    if (field != 'category') {
+                        tr.append('<td>' + (item[field]+"").slice(0,20) + '</td>');
+                    } else {
+                        tr.append('<td>' + item['category']['title'] + '</td>');
+                    }
+                }
+
+                tr.append('<td>' +
+                    '<div class="btn-group" role="group" >' +
+                    '<a href="'+ options.rootURL + options.bug + item['id'] + '"  id="view' + item['id'] +
+                    '" class="btn btn-info view-btn" >' +
+                    '<span class="glyphicon glyphicon-book" ></span></a>' +
+                    '<a href="' + options.rootURL + options.bug + item['id'] + '/edit" id="edit' + item['id'] +
+                    '" class="btn btn-primary edit-btn">' +
+                    '<span class="glyphicon glyphicon-pencil"></span></a>' +
+                    '<button id="remove' + item['id'] +
+                    '" class="btn btn-danger remove-btn">' +
+                    '<span class="glyphicon glyphicon-remove"></span></button>' +
+                    '</div>' +
+                    '</td>');
+
+                tbody.append('</tr>');
+            });
+
+            if (!from) {
+                this.table.append('</tbody>');
+            }
+        }
+
+        function ajaxRequest(options) {
+            $('table').remove();
+            $('#prev-btn').remove();
+            $('#next-btn').remove();
+            $.ajax({
+                url: options.apiURL
+                + '?page=' + options.page+'&per_page='+
+                options.itemsPerPage+'&ordered_by='+options.sortableColumn+'&direction='+
+                options.direction,
+                success: function(data){
+                    setTable();
+                    setHeaders(data[0]);
+                    setBody(data);
+                    setSortable();
+                    setButtons();
+                    setButtonsWorkable();
+                },
+            });
+        }
+
+        function setSortable() {
+            $('th').click(function () {
+                if (!$(this).hasClass('disabled-header')) {
+                    if ($(this).hasClass('active-filter')) {
+                        $('th').removeClass('active-filter');
+                        $('th').removeClass('active-filter-desc');
+                        $(this).addClass('active-filter-desc');
+                        // console.log($(this)[0].outerText);
+                        options.sortableColumn = $(this)[0].outerText + "";
+                        options.direction = 0;
+                        ajaxRequest(options);
+                    } else {
+                        $('th').removeClass('active-filter');
+                        $('th').removeClass('active-filter-desc');
+                        $(this).addClass('active-filter');
+                        // console.log($(this)[0].outerText);
+                        options.sortableColumn = $(this)[0].outerText + "";
+                        options.direction = 1;
+                        ajaxRequest(options);
+                }
+            }
+            });
+        }
+
+        function setButtons() {
+            that.append('<button id="prev-btn" class="btn btn-default">Prev</button>');
+            that.append('<button id="next-btn" class="btn btn-default">Next</button>');
+            $('#prev-btn').click(function () {
+                if (options.page > 1) {
+                    options.page--;
+                    ajaxRequest(options);
+                }
+            });
+
+            $('#next-btn').click(function () {
+                options.page++;
+                ajaxRequest(options);
+            });
+        }
+
+        function setButtonsWorkable() {
+            $('.remove-btn').click(function () {
+                var id = $(this).attr('id').slice(6);
+                // console.log($(this).attr('id').slice(6));
+                // $('#titem'+id).hide("fast", function () {
+                    removeAjax(id);
+                // });
+                // prettyRemoveHelper();
+            });
+        }
+        
+        function removeAjax(id) {
+            $.ajax({
+                url: options.rootURL + options.bug + + id + '/remove',
+                success: function (data) {
+                    if (data == 1) {
+                        $('#titem'+id).remove();
+                    } else {
+                        this.error();
+                    }
+                },
+                error: function () {
+                    alert("Something going wrong!");
+                }
+            });
+        }
+
+        function prettyRemoveHelper() {
+            $.ajax({
+                url: options.apiURL
+                +((options.page*options.itemsPerPage)) + '/'
+                + 1 + '/'+options.sortableColumn+'/' +
+                options.direction,
+                success: function(data){
+                    setBody(data, 1);
+
+                },
+            });
+        }
+
+        ajaxRequest(options);
+    }
+
+})(jQuery);

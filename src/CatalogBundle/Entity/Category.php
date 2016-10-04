@@ -5,13 +5,14 @@ namespace CatalogBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+
 /**
  * @Gedmo\Tree(type="nested")
  * @ORM\Table(name="categories",indexes={
  *     @ORM\Index(name="title", columns={"title"}),
  *     @ORM\Index(name="state_flag", columns={"state_flag"})})
  *
- * @ORM\Entity(repositoryClass="CatalogBundle\Entity\CategoryRepository")
+ * @ORM\Entity(repositoryClass="CatalogBundle\Repository\CategoryRepository")
  */
 class Category
 {
@@ -22,10 +23,12 @@ class Category
      */
     private $id;
 
+
     /**
      * @ORM\Column(length=64, type="string", unique=true)
      */
     private $title;
+
 
     /**
      * @ORM\Column(name="state_flag", type="boolean")
@@ -76,6 +79,14 @@ class Category
      */
     private $children;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->children = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -109,13 +120,6 @@ class Category
     public function getParent()
     {
         return $this->parent;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->children = new ArrayCollection();
     }
 
     /**
@@ -245,24 +249,6 @@ class Category
      *
      * @return Category
      */
-
-
-    /**
-     * Set stateLag
-     *
-     * @param boolean $stateLag
-     *
-     * @return Category
-     */
-
-
-    /**
-     * Set stateFlag
-     *
-     * @param boolean $stateFlag
-     *
-     * @return Category
-     */
     public function setStateFlag($stateFlag)
     {
         $this->state_flag = $stateFlag;
@@ -312,5 +298,19 @@ class Category
     public function getProducts()
     {
         return $this->products;
+    }
+
+    public function getDataToForm()
+    {
+        if (is_null($this->getParent())) {
+            $parentId = null;
+        } else {
+            $parentId = $this->getParent()->getId();
+        }
+
+        return [
+            'title' => $this->getTitle(),
+            'parent_category' => $parentId,
+        ];
     }
 }

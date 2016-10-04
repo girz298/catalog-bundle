@@ -5,13 +5,14 @@ namespace CatalogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use JsonSerializable;
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Table(name="products",indexes={
  *     @ORM\Index(name="name", columns={"name"}),
  *     @ORM\Index(name="creation_time", columns={"creation_time"})})
- * @ORM\Entity(repositoryClass="CatalogBundle\Entity\ProductRepository")
+ * @ORM\Entity(repositoryClass="CatalogBundle\Repository\ProductRepository")
  */
-//implements JsonSerializable
 class Product
 {
 
@@ -60,7 +61,6 @@ class Product
 
     /**
      * @var bool
-     *
      * @ORM\Column(name="state_flag", type="boolean")
      */
     private $stateFlag;
@@ -97,28 +97,10 @@ class Product
 
     /**
      * @var string
-     *
      * @ORM\Column(name="image", type="string", length=50, nullable=true)
+     * @Assert\Image
      */
     private $image;
-
-//    public function __construct() {
-//        $this->similar_from = new ArrayCollection();
-//    }
-
-//    function jsonSerialize()
-//    {
-//        return [
-//            'id' => $this->id,
-//            'name' => $this->name,
-//            'category' => $this->category->getName(),
-//            'description' => $this->description,
-//            'sku' => $this->sku,
-//            'image' => $this->image,
-//            'creation_time' => $this->creationTime->getTimestamp(),
-//            'last_modification_time' =>$this->lastModification->getTimestamp(),
-//        ];
-//    }
 
 
     /**
@@ -355,6 +337,14 @@ class Product
     }
 
     /**
+     * Remove removeAllSimilarProducts
+     */
+    public function removeAllSimilarProducts()
+    {
+        $this->similar_products = [];
+    }
+
+    /**
      * Get similarProducts
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -362,5 +352,51 @@ class Product
     public function getSimilarProducts()
     {
         return $this->similar_products;
+    }
+
+    public function getSimilarProductsIdAndImage()
+    {
+//        isset($this->similar_products[0]) &&
+        $result = [];
+        if (isset($this->similar_products[0]) && !empty($this->similar_products)) {
+            foreach ($this->similar_products as $similar_product) {
+                $result[] = [
+                    'id' => $similar_product->getId(),
+                    'image' => $similar_product->getImage()
+                ];
+            }
+            return $result;
+        }
+        return '';
+    }
+
+    public function getSimilarProductsId()
+    {
+        $result = [];
+        if (isset($this->similar_products[0]) && !empty($this->similar_products)) {
+            foreach ($this->similar_products as $similar_product) {
+                $result[] = $similar_product->getId();
+            }
+            return $result;
+        }
+        return '';
+    }
+
+    public function getProductDataToForm()
+    {
+        $similarProductsId = $this->getSimilarProductsIdAndImage();
+        return [
+            'name' => $this->getName(),
+            'sku' => $this->getSku(),
+            'description' => $this->getDescription(),
+            'state_flag' => $this->getStateFlag(),
+            'category' => $this->getCategory()->getId(),
+            'first_similar_product_id' => ($similarProductsId!=''
+                && isset($similarProductsId[0])) ? $similarProductsId[0]['id'] : null,
+            'second_similar_product_id' => ($similarProductsId!=''
+                && isset($similarProductsId[1])) ? $similarProductsId[1]['id'] : null,
+            'third_similar_product_id' => ($similarProductsId!=''
+                && isset($similarProductsId[2])) ? $similarProductsId[2]['id'] : null,
+        ];
     }
 }

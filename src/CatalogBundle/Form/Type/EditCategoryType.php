@@ -8,7 +8,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class CategoryType extends AbstractType
+class EditCategoryType extends AbstractType
 {
     private $em;
     private $categoryChoices;
@@ -25,6 +25,7 @@ class CategoryType extends AbstractType
             ->getRepository('CatalogBundle:Category')
             ->getAllByIdNameLvl();
 
+        $this->validCategories['NULL'] = null;
         foreach ($this->categoryChoices as $key => $value) {
             if ((int)$value['lvl'] <= 1) {
                 $this->validCategories[str_repeat('└─', (int)$value['lvl']) . $value['title']] = $value['id'];

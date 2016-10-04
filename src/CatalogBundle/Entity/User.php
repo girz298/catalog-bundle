@@ -3,7 +3,6 @@ namespace CatalogBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -15,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     @ORM\Index(name="role", columns={"role"}),
  *     @ORM\Index(name="password", columns={"password"}),
  *     @ORM\Index(name="is_active", columns={"is_active"})})
- * @ORM\Entity(repositoryClass="CatalogBundle\Entity\UserRepository")
+ * @ORM\Entity(repositoryClass="CatalogBundle\Repository\UserRepository")
  */
 class User implements UserInterface
 {
@@ -49,10 +48,11 @@ class User implements UserInterface
      */
     private $role;
 
+
+    // *     checkMX = true
     /**
      * @Assert\Email(
      *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
      * )
      * @ORM\Column(type="string", length=60, unique=true)
      */
@@ -68,6 +68,16 @@ class User implements UserInterface
         $this->isActive = true;
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid(null, true));
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getUsername()
@@ -94,16 +104,6 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -205,4 +205,15 @@ class User implements UserInterface
     {
         return $this->role;
     }
+
+    public function getUserDataToForm()
+    {
+        return [
+            'username' => $this->getUsername(),
+            'email' => $this->getEmail(),
+            'role' => $this->getRole()
+        ];
+    }
+
 }
+

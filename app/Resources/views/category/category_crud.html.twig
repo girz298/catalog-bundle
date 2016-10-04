@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('bundles/catalog/css/css.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div style="height: 100px;"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <a href="{{ path('category_create') }}" class="btn btn-lg btn-success btn-block" style="margin-bottom: 15px">
+                    Add Category
+                </a>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-8">
+                {{ htmlTree | raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
