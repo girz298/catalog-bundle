@@ -59,9 +59,9 @@ class User implements UserInterface
     private $email;
     
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(name="is_active", type="boolean",  nullable=true)
      */
-    private $isActive;
+    private $isActive = null;
 
     public function __construct()
     {

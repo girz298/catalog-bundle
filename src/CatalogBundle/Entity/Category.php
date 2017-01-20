@@ -31,9 +31,9 @@ class Category
 
 
     /**
-     * @ORM\Column(name="state_flag", type="boolean")
+     * @ORM\Column(name="state_flag", type="boolean",  nullable=true)
      */
-    private $state_flag;
+    private $state_flag = null;
 
 
     /**

@@ -208,9 +208,9 @@ class UserController extends Controller
                 $message = \Swift_Message::newInstance()
                     ->setSubject('Hello Email')
                     ->setFrom('test298298@gmail.com')
-                    ->setTo('girz298@gmail.com')
+                    ->setTo($email)
                     ->setBody('To reset you password please 
-                    follow this link http://catalog.com/resetpassword/' . $hash);
+                    follow this link http://localhost:8000/resetpassword/' . $hash);
                 $this->get('mailer')->send($message);
                 $em->persist($forgivePassword);
                 $em->flush();

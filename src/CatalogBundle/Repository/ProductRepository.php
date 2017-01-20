@@ -44,17 +44,21 @@ class ProductRepository extends EntityRepository
 
     public function insertDataFromForm(Form $form)
     {
-        /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-        $file = $form->get('image')->getData();
-        $fileName = md5(uniqid()).'.'.$file->guessExtension();
-
-        $file->move(
-            'uploads/images',
-            $fileName
-        );
-
         $now = new\DateTime('now');
         $created_product = new Product();
+
+        /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+        $file = $form->get('image')->getData();
+        if ($file) {
+            $fileName = md5(uniqid()).'.'.$file->guessExtension();
+            $file->move(
+                'uploads/images',
+                $fileName
+            );
+            $created_product->setImage($fileName);
+        }
+
+
         $created_product->setName($form->get('name')->getData());
         $created_product->setStateFlag($form->get('state_flag')->getData());
         if (!is_null($form->get('first_similar_product_id')) &&
@@ -88,7 +92,6 @@ class ProductRepository extends EntityRepository
         $created_product->setSku($form->get('sku')->getData());
         $created_product->setCreationTime($now);
         $created_product->setLastModification($now);
-        $created_product->setImage($fileName);
         $this->_em->persist($created_product);
         $this->_em->flush();
     }

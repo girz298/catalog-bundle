@@ -61,9 +61,9 @@ class Product
 
     /**
      * @var bool
-     * @ORM\Column(name="state_flag", type="boolean")
+     * @ORM\Column(name="state_flag", type="boolean", nullable=true)
      */
-    private $stateFlag;
+    private $stateFlag = null;
 
 
     /**
