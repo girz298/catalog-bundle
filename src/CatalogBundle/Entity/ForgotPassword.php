@@ -5,12 +5,12 @@ namespace CatalogBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ForgivePassword
+ * ForgotPassword
  *
- * @ORM\Table(name="forgive_password")
- * @ORM\Entity(repositoryClass="CatalogBundle\Repository\ForgivePasswordRepository")
+ * @ORM\Table(name="forgot_password")
+ * @ORM\Entity(repositoryClass="CatalogBundle\Repository\ForgotPasswordRepository")
  */
-class ForgivePassword
+class ForgotPassword
 {
     /**
      * @var int
@@ -51,7 +51,7 @@ class ForgivePassword
      *
      * @param string $email
      *
-     * @return ForgivePassword
+     * @return ForgotPassword
      */
     public function setEmail($email)
     {
@@ -75,7 +75,7 @@ class ForgivePassword
      *
      * @param string $hashedKey
      *
-     * @return ForgivePassword
+     * @return ForgotPassword
      */
     public function setHashedKey($hashedKey)
     {

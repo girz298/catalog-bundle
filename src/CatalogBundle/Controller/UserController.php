@@ -5,10 +5,11 @@
  * Date: 01.09.16
  * Time: 1:34
  */
+
 namespace CatalogBundle\Controller;
 
-use CatalogBundle\Entity\ForgivePassword;
-use CatalogBundle\Form\User\ForgivePasswordType;
+use CatalogBundle\Entity\ForgotPassword;
+use CatalogBundle\Form\User\ForgotPasswordType;
 use CatalogBundle\Form\User\ResetPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,7 +33,6 @@ class UserController extends Controller
     {
         return $this->render('moderator/user_crud.html.twig');
     }
-
 
 
     /**
@@ -68,6 +68,10 @@ class UserController extends Controller
      */
     public function indexAction()
     {
+        $authenticationUtils = $this->get('security.authorization_checker');
+        if ($authenticationUtils->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('products_all');
+        }
         return $this->render('anon/index.html.twig');
     }
 
@@ -86,7 +90,7 @@ class UserController extends Controller
             'security/login.html.twig',
             [
                 'last_username' => $lastUsername,
-                'error'         => $error,
+                'error' => $error,
             ]
         );
     }
@@ -183,45 +187,45 @@ class UserController extends Controller
     /**
      * @param $request
      * @Route(
-     *     "/forgivepassword",
-     *     name="forgive_password"
+     *     "/forgot_password",
+     *     name="forgot_password"
      * )
      * @Method({"GET","POST"})
      * @return Response
      */
-    public function forgivePasswordAction(Request $request)
+    public function forgotPasswordAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $userRepo = $em->getRepository('CatalogBundle:User');
-        $form = $this->createForm(ForgivePasswordType::class);
+        $form = $this->createForm(ForgotPasswordType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             $email = $form->get('email')->getData();
             $user = $userRepo->findOneByEmail($email);
             if (!is_null($user)) {
-                $forgivePassword = new ForgivePassword();
-                $forgivePassword->setEmail($email);
+                $forgotPassword = new ForgotPassword();
+                $forgotPassword->setEmail($email);
                 $hash = md5(uniqid(null, true));
-                $forgivePassword->setHashedKey($hash);
+                $forgotPassword->setHashedKey($hash);
 
                 $message = \Swift_Message::newInstance()
                     ->setSubject('Hello Email')
                     ->setFrom('test298298@gmail.com')
                     ->setTo($email)
-                    ->setBody('To reset you password please 
+                    ->setBody('To reset you password <b>please</b> 
                     follow this link http://localhost:8000/resetpassword/' . $hash);
                 $this->get('mailer')->send($message);
-                $em->persist($forgivePassword);
+                $em->persist($forgotPassword);
                 $em->flush();
                 $this->addFlash('notice', 'Email with instructions was send to you email!');
                 return $this->redirectToRoute('login');
             } else {
                 $this->addFlash('notice', 'User with that email not found!');
-                return $this->redirectToRoute('forgive_password');
+                return $this->redirectToRoute('forgot_password');
             }
         }
-        return $this->render('anon/forgive_password.html.twig', [
+        return $this->render('anon/forgot_password.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -240,26 +244,26 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $userRepo = $em->getRepository('CatalogBundle:User');
-        $forgivRepo = $em->getRepository('CatalogBundle:ForgivePassword');
+        $forgotRepo = $em->getRepository('CatalogBundle:ForgotPassword');
 
-        $forgiver = $forgivRepo->findOneByHashedKey($hash);
-        if (!is_null($forgiver)) {
+        $forgotEntity = $forgotRepo->findOneByHashedKey($hash);
+        if (!is_null($forgotEntity)) {
             $form = $this->createForm(ResetPasswordType::class);
             $form->handleRequest($request);
             if ($form->isSubmitted()) {
-                $user = $userRepo->findOneByEmail($forgiver->getEmail());
+                $user = $userRepo->findOneByEmail($forgotEntity->getEmail());
                 $encoder = $this->get('security.password_encoder');
                 $user->setPassword($encoder->encodePassword(
                     $user,
                     $form->get('new_password')->getData()
                 ));
-                $em->remove($forgiver);
+                $em->remove($forgotEntity);
                 $em->persist($user);
                 $em->flush();
                 $this->addFlash('notice', 'You are successfully reset your password');
                 return $this->redirectToRoute('login');
             }
-            return $this->render('anon/forgive_password.html.twig', [
+            return $this->render('anon/forgot_password.html.twig', [
                 'form' => $form->createView()
             ]);
         } else {
