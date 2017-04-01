@@ -83,6 +83,10 @@ class UserController extends Controller
      */
     public function loginAction()
     {
+        $authenticationUtils = $this->get('security.authorization_checker');
+        if ($authenticationUtils->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('products_all');
+        }
         $authenticationUtils = $this->get('security.authentication_utils');
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -103,6 +107,10 @@ class UserController extends Controller
      */
     public function registerAction(Request $request)
     {
+        $authenticationUtils = $this->get('security.authorization_checker');
+        if ($authenticationUtils->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('products_all');
+        }
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $em = $this->getDoctrine()->getManager();
