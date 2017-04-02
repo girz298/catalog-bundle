@@ -27,9 +27,9 @@
     {#<script src="{{ asset('bundles/catalog/js/grid_plugin.js') }}"></script>#}
     <script>
         $('#grid-table').gridPlugin({
-            bug: '/product/',
-            rootURL: 'http://localhost:8000',
-            apiURL: 'http://localhost:8000/api/products',
+            bug: 'product/',
+            rootURL: '{{ path('index') }}',
+            apiURL: '{{ path('index') }}' + 'api/products',
             sortableColumn: 'id',
             itemsPerPage: 7,
             page: 1,
